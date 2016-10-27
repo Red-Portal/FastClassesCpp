@@ -80,30 +80,47 @@ namespace FastClassesVSIX
     {
         public void TextViewCreated(IWpfTextView textView)
         {
-            ClassFormWriter.initializeSingletonFromParent(textView);
+            ClassFormWriter.ClassFormWriterMembers.initializeFromParent(textView);
         }
     }
 
-    public sealed class ClassFormWriter
+    static class ClassFormWriter
     {
-        private IWpfTextView m_view;
-        private static ClassFormWriter classFormWriterInstance;
-        static public void initializeSingletonFromParent(IWpfTextView view)
+        internal static class ClassFormWriterMembers
         {
-            classFormWriterInstance = new ClassFormWriter(view);
+            public static void initializeFromParent(IWpfTextView view)
+            {
+                m_view = view;
+            }
+            public static IWpfTextView m_view;
         }
-        private ClassFormWriter(IWpfTextView view)
+        public static void fastClassOption1()
         {
-            m_view = view;
+            ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
+            edit.Insert(0, "class ClassName\n" +
+                           "{\n" +
+                           "ClassName() = default;\n" +
+                           "~ClassName() = default;\n" +
+                           "}\n");
+            edit.Apply();
         }
-        static public ClassFormWriter getClassFormWriter()
+        public static void fastClassOption2()
         {
-            return classFormWriterInstance;
+            ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
+            edit.Insert(0, "class ClassName\n" +
+                           "{\n" +
+                           "ClassName() = default;\n" +
+                           "ClassName(const ClassName& other)" +
+                           "{}" +
+                           "ClassName& operator=(const ClassName& other)" +
+                           "~ClassName() = default;\n" +
+                           "}\n");
+            edit.Apply();
         }
 
-        public void fastClassOption1()
+        public static void fastClassOption3()
         {
-            ITextEdit edit = m_view.TextBuffer.CreateEdit();
+            ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
             edit.Insert(0, "class ClassName\n" +
                            "{\n" +
                            "ClassName() = default;\n" +
@@ -112,51 +129,4 @@ namespace FastClassesVSIX
             edit.Apply();
         }
     }
-    /*
-    class Formatter
-    {
-        private IWpfTextView _view;
-        private bool _isChangingText = false;
-        public Formatter(IWpfTextView view)
-        {
-            _view = view;
-            _view.TextBuffer.Changed += new EventHandler<TextContentChangedEventArgs>(TextBuffer_Changed);
-            _view.TextBuffer.PostChanged += new EventHandler(TextBuffer_PostChanged);
-        }
-
-        private void TextBuffer_Changed(object sender, TextContentChangedEventArgs e)
-        {
-            if (!_isChangingText)
-            {
-                _isChangingText = true;
-                FormatCode(e);
-            }
-        }
-
-        private void TextBuffer_PostChanged(object sender, EventArgs e)
-        {
-            if (_isChangingText)
-                _isChangingText = false;
-        }
-
-        private void FormatCode(TextContentChangedEventArgs e)
-        {
-            if (e.Changes != null)
-            {
-                for (int i = 0; i < e.Changes.Count; i++)
-                {
-                    HandleChange(e.Changes[0].NewText);
-                }
-            }
-
-        }
-
-        private void HandleChange(string newText)
-        {
-            ITextEdit edit = _view.TextBuffer.CreateEdit();
-            edit.Insert(0, "Hello");
-            edit.Apply();
-        }
-        */
-
 }

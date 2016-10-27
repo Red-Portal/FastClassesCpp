@@ -102,7 +102,7 @@ namespace FastClassesVSIX
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            ClassFormWriter.getClassFormWriter().fastClassOption1();
+            ClassFormWriter.fastClassOption1();
         }
     }
 }

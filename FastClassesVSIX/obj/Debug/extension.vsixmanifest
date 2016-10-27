@@ -28,5 +28,6 @@ Comes with the above, a move copy constructor, and a move copy assign operator.<
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" Path="FastClassesVSIX.pkgdef" />
     <Asset Type="Microsoft.VisualStudio.MefComponent" Path="FastClassesVSIX.dll" />
+    <Asset Type="Microsoft.VisualStudio.ToolboxControl" Path="FastClassesVSIX.pkgdef" />
   </Assets>
 </PackageManifest>

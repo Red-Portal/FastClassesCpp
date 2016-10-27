@@ -113,6 +113,7 @@ namespace FastClassesVSIX
                            "ClassName(const ClassName& other)" +
                            "{}" +
                            "ClassName& operator=(const ClassName& other)" +
+                           "{}" +
                            "~ClassName() = default;\n" +
                            "}\n");
             edit.Apply();
@@ -124,6 +125,14 @@ namespace FastClassesVSIX
             edit.Insert(0, "class ClassName\n" +
                            "{\n" +
                            "ClassName() = default;\n" +
+                           "ClassName(const ClassName& other)" +
+                           "{}" +
+                           "ClassName(ClassName&& other)" +
+                           "{}" +
+                           "ClassName& operator=(const ClassName& other)" +
+                           "{}" +
+                           "ClassName& operator=(ClassName&& other)" +
+                           "{}" +
                            "~ClassName() = default;\n" +
                            "}\n");
             edit.Apply();

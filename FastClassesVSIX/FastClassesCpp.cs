@@ -102,8 +102,24 @@ namespace FastClassesVSIX
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            e.
-            ClassFormWriter.fastClassOption1();
+            var item = (OleMenuCommand) sender;
+
+            /*
+            */
+            string className;
+
+            switch (item.CommandID.ID)
+            {
+                case makeClassOption1:
+                    ClassFormWriter.fastClassOption1(className);
+                    break;
+                case makeClassOption2:
+                    ClassFormWriter.fastClassOption2(className);
+                    break;
+                case makeClassOption3:
+                    ClassFormWriter.fastClassOption3(className);
+                    break;
+            } 
         }
     }
 }

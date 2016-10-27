@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.ComponentModel.Design;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
@@ -92,48 +93,56 @@ namespace FastClassesVSIX
             {
                 m_view = view;
             }
+
             public static IWpfTextView m_view;
         }
-        public static void fastClassOption1()
+        public static void fastClassOption1(string className)
         {
             ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-            edit.Insert(0, "class ClassName\n" +
+            edit.Insert(0, "class " + className + '\n' +
                            "{\n" +
-                           "ClassName() = default;\n" +
-                           "~ClassName() = default;\n" +
-                           "}\n");
-            edit.Apply();
-        }
-        public static void fastClassOption2()
-        {
-            ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-            edit.Insert(0, "class ClassName\n" +
-                           "{\n" +
-                           "ClassName() = default;\n" +
-                           "ClassName(const ClassName& other)" +
-                           "{}" +
-                           "ClassName& operator=(const ClassName& other)" +
-                           "{}" +
-                           "~ClassName() = default;\n" +
+                           "private:\n" +
+                           "public:\n" +
+                           className + "() = default;\n" +
+                           '~' + className + "() = default;\n" +
                            "}\n");
             edit.Apply();
         }
 
-        public static void fastClassOption3()
+        public static void fastClassOption2(string className)
         {
             ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-            edit.Insert(0, "class ClassName\n" +
+            edit.Insert(0, "class " + className + '\n' +
                            "{\n" +
-                           "ClassName() = default;\n" +
-                           "ClassName(const ClassName& other)" +
-                           "{}" +
-                           "ClassName(ClassName&& other)" +
-                           "{}" +
-                           "ClassName& operator=(const ClassName& other)" +
-                           "{}" +
-                           "ClassName& operator=(ClassName&& other)" +
-                           "{}" +
-                           "~ClassName() = default;\n" +
+                           "private:\n" +
+                           "public:\n" +
+                           className + "() = default;\n" +
+                           className + "(const " + className + "& other)\n" +
+                           "{}\n" +
+                           className + "& operator=(const " + className + "& other)\n" +
+                           "{}\n" +
+                           '~' + className + "() = default;\n" +
+                           "}\n");
+            edit.Apply();
+        }
+
+        public static void fastClassOption3(string className)
+        {
+            ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
+            edit.Insert(0, "class " + className + '\n' +
+                           "{\n" +
+                           "private:\n" +
+                           "public:\n" +
+                           className + "() = default;\n" +
+                           className + "(const " + className + "& other)\n" +
+                           "{}\n" +
+                           className + "(" + className + "&& other)\n" +
+                           "{}\n" +
+                           className + "& operator=(const " + className + "& other)\n" +
+                           "{}\n" +
+                           className + "& operator=(" + className + "&& other)\n" +
+                           "{}\n" +
+                           '~' + className + "() = default;\n" +
                            "}\n");
             edit.Apply();
         }

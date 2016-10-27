@@ -1,0 +1,4 @@
+C:\Users\RedPortal\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Ray Kim\Visual Studio Fast Classes C++\1.0\\FastClassesVSIX.dll
+C:\Users\RedPortal\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Ray Kim\Visual Studio Fast Classes C++\1.0\\FastClassesVSIX.pdb
+C:\Users\RedPortal\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Ray Kim\Visual Studio Fast Classes C++\1.0\\FastClassesVSIX.pkgdef
+C:\Users\RedPortal\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Ray Kim\Visual Studio Fast Classes C++\1.0\\extension.vsixmanifest

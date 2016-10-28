@@ -103,9 +103,8 @@ namespace FastClassesVSIX
                            "{\n" +
                            "private:\n" +
                            "public:\n" +
-                           className + "() = default;\n" +
-                           '~' + className + "() = default;\n" +
-                           "}\n");
+                           className + "() {};\n" +
+                           '~' + className + "() {};\n");
             edit.Apply();
         }
 
@@ -117,12 +116,9 @@ namespace FastClassesVSIX
                            "private:\n" +
                            "public:\n" +
                            className + "() = default;\n" +
-                           className + "(const " + className + "& other)\n" +
-                           "{}\n" +
-                           className + "& operator=(const " + className + "& other)\n" +
-                           "{}\n" +
-                           '~' + className + "() = default;\n" +
-                           "}\n");
+                           className + "(const " + className + "& other) {}\n" +
+                           className + "& operator=(const " + className + "& other) {}\n" +
+                           '~' + className + "() = default; {}\n");
             edit.Apply();
         }
 
@@ -134,16 +130,11 @@ namespace FastClassesVSIX
                            "private:\n" +
                            "public:\n" +
                            className + "() = default;\n" +
-                           className + "(const " + className + "& other)\n" +
-                           "{}\n" +
-                           className + "(" + className + "&& other)\n" +
-                           "{}\n" +
-                           className + "& operator=(const " + className + "& other)\n" +
-                           "{}\n" +
-                           className + "& operator=(" + className + "&& other)\n" +
-                           "{}\n" +
-                           '~' + className + "() = default;\n" +
-                           "}\n");
+                           className + "(const " + className + "& other) {}\n" +
+                           className + "(" + className + "&& other) {}\n" +
+                           className + "& operator=(const " + className + "& other) {}\n" +
+                           className + "& operator=(" + className + "&& other) {}\n" +
+                           '~' + className + "() = default; {}\n");
             edit.Apply();
         }
     }

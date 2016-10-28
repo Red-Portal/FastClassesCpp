@@ -125,7 +125,6 @@ namespace FastClassesVSIX
 
             string className = ClassPreferenceOptionsInstance.inputClassName;
             
-
             switch (item.CommandID.ID)
             {
                 case makeClassOption1:

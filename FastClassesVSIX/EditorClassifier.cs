@@ -104,7 +104,8 @@ namespace FastClassesVSIX
                            "private:\n" +
                            "public:\n" +
                            className + "() {};\n" +
-                           '~' + className + "() {};\n");
+                           '~' + className + "() {};\n" +
+                           "}\n");
             edit.Apply();
         }
 
@@ -118,7 +119,8 @@ namespace FastClassesVSIX
                            className + "() = default;\n" +
                            className + "(const " + className + "& other) {}\n" +
                            className + "& operator=(const " + className + "& other) {}\n" +
-                           '~' + className + "() = default; {}\n");
+                           '~' + className + "() = default; {}\n" +
+                           "}\n");
             edit.Apply();
         }
 
@@ -134,7 +136,8 @@ namespace FastClassesVSIX
                            className + "(" + className + "&& other) {}\n" +
                            className + "& operator=(const " + className + "& other) {}\n" +
                            className + "& operator=(" + className + "&& other) {}\n" +
-                           '~' + className + "() = default; {}\n");
+                           '~' + className + "() = default; {}\n" +
+                           "}\n");
             edit.Apply();
         }
     }

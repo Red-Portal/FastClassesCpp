@@ -40,8 +40,6 @@ namespace FastClassesVSIX
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(FastClassesCppPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    [ProvideToolWindow(typeof(ToolWindow1))]
-    [ProvideToolWindow(typeof(FastClassesOptionWindow))]
     public sealed class FastClassesCppPackage : Package
     {
         /// <summary>
@@ -70,8 +68,6 @@ namespace FastClassesVSIX
         {
             FastClassesCpp.Initialize(this);
             base.Initialize();
-            ToolWindow1Command.Initialize(this);
-            FastClassesOptionWindowCommand.Initialize(this);
         }
 
         #endregion

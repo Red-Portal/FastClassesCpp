@@ -51,17 +51,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClassPreferenceOptions.xaml.cs">
+      <DependentUpon>ClassPreferenceOptions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditorClassifier.cs" />
     <Compile Include="EditorClassifierClassificationDefinition.cs" />
     <Compile Include="EditorClassifierProvider.cs" />
     <Compile Include="FastClassesCpp.cs" />
     <Compile Include="FastClassesCppPackage.cs" />
-    <Compile Include="FastClassesOptionWindow.cs" />
-    <Compile Include="FastClassesOptionWindowCommand.cs" />
-    <Compile Include="FastClassesOptionWindowControl.xaml.cs">
-      <DependentUpon>FastClassesOptionWindowControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProvideToolboxControlAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
@@ -215,10 +214,9 @@
   <ItemGroup>
     <Content Include="Resources\FastClassesCpp.png" />
     <Content Include="Resources\FastClassesCppPackage.ico" />
-    <Content Include="Resources\FastClassesOptionWindowCommand.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="FastClassesOptionWindowControl.xaml">
+    <Page Include="ClassPreferenceOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

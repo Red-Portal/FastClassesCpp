@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
+using Microsoft.VisualStudio.PlatformUI;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -10,8 +11,7 @@ namespace FastClassesVSIX
     /// <summary>
     /// Interaction logic for ClassPreferenceOptions.xaml.
     /// </summary>
-    [ProvideToolboxControl("FastClassesVSIX.ClassPreferenceOptions", true)]
-    public partial class ClassPreferenceOptions : UserControl
+    public partial class ClassPreferenceOptions : DialogWindow
     {
         public string inputClassName;
         public ClassPreferenceOptions()

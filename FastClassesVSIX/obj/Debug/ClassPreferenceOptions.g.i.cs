@@ -9,6 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Microsoft.VisualStudio.PlatformUI;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -37,10 +38,10 @@ namespace FastClassesVSIX {
     /// <summary>
     /// ClassPreferenceOptions
     /// </summary>
-    public partial class ClassPreferenceOptions : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector {
+    public partial class ClassPreferenceOptions : Microsoft.VisualStudio.PlatformUI.DialogWindow, System.Windows.Markup.IComponentConnector {
         
         
-        #line 9 "..\..\ClassPreferenceOptions.xaml"
+        #line 11 "..\..\ClassPreferenceOptions.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Grid FastClassesOptionsMessageBox;
         
@@ -48,7 +49,7 @@ namespace FastClassesVSIX {
         #line hidden
         
         
-        #line 22 "..\..\ClassPreferenceOptions.xaml"
+        #line 24 "..\..\ClassPreferenceOptions.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.TextBox ClassNameInputTextBox;
         
@@ -91,7 +92,7 @@ namespace FastClassesVSIX {
             case 2:
             this.ClassNameInputTextBox = ((System.Windows.Controls.TextBox)(target));
             
-            #line 22 "..\..\ClassPreferenceOptions.xaml"
+            #line 24 "..\..\ClassPreferenceOptions.xaml"
             this.ClassNameInputTextBox.KeyDown += new System.Windows.Input.KeyEventHandler(this.ClassNameInputTextBox_OnKeyDown);
             
             #line default

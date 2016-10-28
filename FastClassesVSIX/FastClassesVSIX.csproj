@@ -60,7 +60,6 @@
     <Compile Include="FastClassesCpp.cs" />
     <Compile Include="FastClassesCppPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProvideToolboxControlAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

@@ -71,7 +71,3 @@ d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Deb
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\Microsoft.VisualStudio.Text.Logic.xml
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\Microsoft.VisualStudio.Text.UI.xml
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\Microsoft.VisualStudio.Text.UI.Wpf.xml
-d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Debug\ClassPreferenceOptions.baml
-d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Debug\ClassPreferenceOptions.g.cs
-d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Debug\FastClassesVSIX_MarkupCompile.cache
-d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Debug\FastClassesVSIX.g.resources

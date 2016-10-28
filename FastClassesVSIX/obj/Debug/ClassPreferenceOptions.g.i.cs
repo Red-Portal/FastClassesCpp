@@ -41,7 +41,7 @@ namespace FastClassesVSIX {
     public partial class ClassPreferenceOptions : Microsoft.VisualStudio.PlatformUI.DialogWindow, System.Windows.Markup.IComponentConnector {
         
         
-        #line 14 "..\..\ClassPreferenceOptions.xaml"
+        #line 15 "..\..\ClassPreferenceOptions.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.TextBox ClassNameInputTextBox;
         
@@ -81,7 +81,7 @@ namespace FastClassesVSIX {
             case 1:
             this.ClassNameInputTextBox = ((System.Windows.Controls.TextBox)(target));
             
-            #line 14 "..\..\ClassPreferenceOptions.xaml"
+            #line 15 "..\..\ClassPreferenceOptions.xaml"
             this.ClassNameInputTextBox.KeyDown += new System.Windows.Input.KeyEventHandler(this.ClassNameInputTextBox_OnKeyDown);
             
             #line default

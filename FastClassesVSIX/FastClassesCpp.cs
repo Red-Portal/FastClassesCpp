@@ -115,8 +115,12 @@ namespace FastClassesVSIX
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            var item = (OleMenuCommand) sender;
+            var item = (MenuCommand) sender;
 
+            var ClassPreferenceOptionsInstance = new ClassPreferenceOptions();
+            ClassPreferenceOptionsInstance.HasMaximizeButton = false;
+            ClassPreferenceOptionsInstance.HasMinimizeButton = false;
+            ClassPreferenceOptionsInstance.ShowModal();
 
             string className = messageBoxControlInstance.inputClassName;
 

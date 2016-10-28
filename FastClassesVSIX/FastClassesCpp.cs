@@ -74,6 +74,16 @@ namespace FastClassesVSIX
         }
 
         /// <summary>
+        /// Create a MessageBox Controller Instance.
+        /// </summary>
+        public static ClassPreferenceOptions messageBoxControlInstance
+        {
+            get;
+            private set;
+        }
+
+
+        /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
         private IServiceProvider ServiceProvider
@@ -91,7 +101,10 @@ namespace FastClassesVSIX
         public static void Initialize(Package package)
         {
             Instance = new FastClassesCpp(package);
+            messageBoxControlInstance = new ClassPreferenceOptions();
         }
+
+     
 
         /// <summary>
         /// This function is the callback used to execute the command when the menu item is clicked.
@@ -104,9 +117,8 @@ namespace FastClassesVSIX
         {
             var item = (OleMenuCommand) sender;
 
-            /*
-            */
-            string className;
+
+            string className = messageBoxControlInstance.inputClassName;
 
             switch (item.CommandID.ID)
             {

@@ -76,7 +76,7 @@ namespace FastClassesVSIX
         /// <summary>
         /// Create a MessageBox Controller Instance.
         /// </summary>
-        public static ClassPreferenceOptions messageBoxControlInstance
+        public static FastClassesOptionWindowControl messageBoxControlInstance
         {
             get;
             private set;
@@ -101,7 +101,7 @@ namespace FastClassesVSIX
         public static void Initialize(Package package)
         {
             Instance = new FastClassesCpp(package);
-            messageBoxControlInstance = new ClassPreferenceOptions();
+            messageBoxControlInstance = 
         }
 
      
@@ -115,9 +115,9 @@ namespace FastClassesVSIX
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            var item = (OleMenuCommand) sender;
+            var item = (MenuCommand) sender;
 
-
+            messageBoxControlInstance.visualizeMessageBox();
             string className = messageBoxControlInstance.inputClassName;
 
             switch (item.CommandID.ID)

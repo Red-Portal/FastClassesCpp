@@ -118,11 +118,13 @@ namespace FastClassesVSIX
             var item = (MenuCommand) sender;
 
             var ClassPreferenceOptionsInstance = new ClassPreferenceOptions();
-            ClassPreferenceOptionsInstance.HasMaximizeButton = false;
-            ClassPreferenceOptionsInstance.HasMinimizeButton = false;
             ClassPreferenceOptionsInstance.ShowModal();
 
-            string className = messageBoxControlInstance.inputClassName;
+            if (!ClassPreferenceOptionsInstance.result)
+                return;
+
+            string className = ClassPreferenceOptionsInstance.inputClassName;
+            
 
             switch (item.CommandID.ID)
             {

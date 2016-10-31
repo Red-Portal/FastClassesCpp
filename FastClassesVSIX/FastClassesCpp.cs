@@ -128,13 +128,13 @@ namespace FastClassesVSIX
             switch (item.CommandID.ID)
             {
                 case makeClassOption1:
-                    ClassFormWriter.fastClassOption1(className);
+                    ClassFormWriter.ClassDeclarationTemplates.fastClassOption1(className);
                     break;
                 case makeClassOption2:
-                    ClassFormWriter.fastClassOption2(className);
+                    ClassFormWriter.ClassDeclarationTemplates.fastClassOption2(className);
                     break;
                 case makeClassOption3:
-                    ClassFormWriter.fastClassOption3(className);
+                    ClassFormWriter.ClassDeclarationTemplates.fastClassOption3(className);
                     break;
             } 
         }

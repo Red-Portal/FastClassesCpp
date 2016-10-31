@@ -99,61 +99,109 @@ namespace FastClassesVSIX
                 m_length = m_view.TextBuffer.CurrentSnapshot.Length;
             }
 
-            public static IWpfTextView m_view;
-            public static int m_length;
-        }
-        public static void fastClassOption1(string className)
-        {
-            ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-            ClassFormWriterMembers.resetSnapshotLength();
-            edit.Insert(ClassFormWriterMembers.m_length,
-                           '\n' +
-                           "class " + className + '\n' +
-                           "{\n" +
-                           "private:\n" +
-                           "public:\n" +
-                           className + "() {};\n" +
-                           '~' + className + "() {};\n" +
-                           '}');
-            edit.Apply();
+            internal static IWpfTextView m_view;
+            internal static int m_length;
         }
 
-        public static void fastClassOption2(string className)
+        public static class ClassDeclarationTemplates
         {
-            ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-            ClassFormWriterMembers.resetSnapshotLength();
-            edit.Insert(ClassFormWriterMembers.m_length,
-                           '\n' +
-                           "class " + className + '\n' +
-                           "{\n" +
-                           "private:\n" +
-                           "public:\n" +
-                           className + "() = default;\n" +
-                           className + "(const " + className + "& other) {}\n" +
-                           className + "& operator=(const " + className + "& other) {}\n" +
-                           '~' + className + "() = default; {}\n" +
-                           '}');
-            edit.Apply();
+            public static void fastClassOption1(string className)
+            {
+                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
+                ClassFormWriterMembers.resetSnapshotLength();
+                edit.Insert(ClassFormWriterMembers.m_length,
+                    '\n' +
+                    "class " + className + '\n' +
+                    "{\n" +
+                    "private:\n" +
+                    "public:\n" +
+                    className + "();\n" +
+                    '~' + className + "();\n" +
+                    '}');
+                edit.Apply();
+            }
+
+            public static void fastClassOption2(string className)
+            {
+                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
+                ClassFormWriterMembers.resetSnapshotLength();
+                edit.Insert(ClassFormWriterMembers.m_length,
+                    '\n' +
+                    "class " + className + '\n' +
+                    "{\n" +
+                    "private:\n" +
+                    "public:\n" +
+                    className + "();\n" +
+                    className + "(const " + className + "& other);\n" +
+                    className + "& operator=(const " + className + "& other);\n" +
+                    '~' + className + "();\n" +
+                    '}');
+                edit.Apply();
+            }
+
+            public static void fastClassOption3(string className)
+            {
+                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
+                ClassFormWriterMembers.resetSnapshotLength();
+                edit.Insert(ClassFormWriterMembers.m_length,
+                    '\n' +
+                    "class " + className + '\n' +
+                    "{\n" +
+                    "private:\n" +
+                    "public:\n" +
+                    className + "();\n" +
+                    className + "(const " + className + "& other);\n" +
+                    className + "(" + className + "&& other);\n" +
+                    className + "& operator=(const " + className + "& other);\n" +
+                    className + "& operator=(" + className + "&& other);\n" +
+                    '~' + className + "();\n" +
+                    '}');
+                edit.Apply();
+            }
+            
+
         }
 
-        public static void fastClassOption3(string className)
+        static class ClassDefinitionTemplates
         {
-            ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-            ClassFormWriterMembers.resetSnapshotLength();
-            edit.Insert(ClassFormWriterMembers.m_length,
-                           '\n'+
-                           "class " + className + '\n' +
-                           "{\n" +
-                           "private:\n" +
-                           "public:\n" +
-                           className + "() = default;\n" +
-                           className + "(const " + className + "& other) {}\n" +
-                           className + "(" + className + "&& other) {}\n" +
-                           className + "& operator=(const " + className + "& other) {}\n" +
-                           className + "& operator=(" + className + "&& other) {}\n" +
-                           '~' + className + "() = default; {}\n" +
-                           '}');
-            edit.Apply();
+            public static void fastClassOption1(string className)
+            {
+                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
+                ClassFormWriterMembers.resetSnapshotLength();
+                edit.Insert(ClassFormWriterMembers.m_length,
+                    '\n' +
+                    className + "::" + className + "() {}\n" +
+                    className + "::" + '~' + className + "() {}\n");
+                edit.Apply();
+            }
+
+            public static void fastClassOption2(string className)
+            {
+                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
+                ClassFormWriterMembers.resetSnapshotLength();
+                edit.Insert(ClassFormWriterMembers.m_length,
+                    '\n' +
+                    className + "::" + className + "() {}\n" +
+                    className + "::" + className + "(const " + className + "& other) {}\n" +
+                    className + "::" + className + "& operator=(const " + className + "& other) {}\n" +
+                    className + "::" + className + '~' + className + "() {}\n");
+                edit.Apply();
+            }
+
+           public static void fastClassOption3(string className)
+            {
+                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
+                ClassFormWriterMembers.resetSnapshotLength();
+                edit.Insert(ClassFormWriterMembers.m_length,
+                    '\n' +
+                    className + "::" + className + "() {}\n" +
+                    className + "::" + className + "(const " + className + "& other) {}\n" +
+                    className + "::" + className + "(" + className + "&& other) {}\n" +
+                    className + "::" + className + "& operator=(const " + className + "& other) {}\n" +
+                    className + "::" + className + "& operator=(" + className + "&& other) {}\n" +
+                    className + "::" + className + '~' + className + "() {}\n");
+                edit.Apply();
+            }
         }
     }
 }

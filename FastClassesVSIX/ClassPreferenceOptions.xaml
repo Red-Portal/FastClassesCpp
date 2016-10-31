@@ -7,12 +7,13 @@
              mc:Ignorable="d" 
              WindowStartupLocation="CenterScreen"         
              Width="400" Height="100"
-             Background="DarkGray">
+             Background="DimGray">
     <StackPanel>
-        <TextBlock Margin="7" Text="Enter Class Name" FontWeight="ExtraBold" FontFamily="Cambria" />
+        <TextBlock Name="InputTextBlock"  Margin="7" Text="Enter the Name of Class" Foreground="WhiteSmoke" FontWeight="Normal" FontFamily="Calibri"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
         </StackPanel>
         <TextBox MinWidth="300" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ClassNameInputTextBox" KeyDown="ClassNameInputTextBox_OnKeyDown" />
+        <TextBlock x:Name="ErrorTextBlock" Margin="2" FontSize ="12"  TextAlignment="Center" Foreground="DarkRed" FontWeight="Normal" FontFamily="Calibri"/>
     </StackPanel>
 </platformUi:DialogWindow>
 

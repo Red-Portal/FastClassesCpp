@@ -118,12 +118,12 @@ namespace FastClassesVSIX
             var item = (MenuCommand) sender;
 
             var ClassPreferenceOptionsInstance = new ClassPreferenceOptions();
-            ClassPreferenceOptionsInstance.ShowModal();
+            ClassPreferenceOptionsInstance.ShowModal();  //Opens the class name input window in the file "ClassPreferenceOptions.xaml"
 
             if (!ClassPreferenceOptionsInstance.result)
-                return;
+                return; //Check if the class name was successfully input
 
-            string className = ClassPreferenceOptionsInstance.inputClassName;
+            string className = ClassPreferenceOptionsInstance.inputClassName; //get the className
             
             switch (item.CommandID.ID)
             {

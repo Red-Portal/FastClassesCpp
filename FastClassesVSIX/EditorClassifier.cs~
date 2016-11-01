@@ -85,18 +85,18 @@ namespace FastClassesVSIX
         }
     }
 
-    static class ClassFormWriter //singleton for writing the class Templates into the editor
+    static class ClassFormWriter
     {
-        internal static class ClassFormWriterMembers //the abstracted singleton members etc..
+        internal static class ClassFormWriterMembers
         {
             public static void initializeFromParent(IWpfTextView view)
             {
-                m_view = view; //the view for the editor
+                m_view = view;
             }
 
             public static void resetSnapshotLength()
             {
-                m_length = m_view.TextBuffer.CurrentSnapshot.Length; //length of the current text on the editor. This is required for writing class templates in the bottom of the editor
+                m_length = m_view.TextBuffer.CurrentSnapshot.Length;
             }
 
             internal static IWpfTextView m_view;

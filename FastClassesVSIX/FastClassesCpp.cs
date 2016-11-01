@@ -74,16 +74,6 @@ namespace FastClassesVSIX
         }
 
         /// <summary>
-        /// Create a MessageBox Controller Instance.
-        /// </summary>
-        public static ClassPreferenceOptions messageBoxControlInstance
-        {
-            get;
-            private set;
-        }
-
-
-        /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
         private IServiceProvider ServiceProvider
@@ -101,7 +91,6 @@ namespace FastClassesVSIX
         public static void Initialize(Package package)
         {
             Instance = new FastClassesCpp(package);
-            messageBoxControlInstance = new ClassPreferenceOptions();
         }
 
      
@@ -116,25 +105,24 @@ namespace FastClassesVSIX
         private void MenuItemCallback(object sender, EventArgs e)
         {
             var item = (MenuCommand) sender;
+            var fastClassesMMBControlInstance = new FastClassesModalMessageDialogBoxControl();
+            fastClassesMMBControlInstance.ShowModal();  //Opens the class name input window in the file "ClassPreferenceOptions.xaml"
 
-            var ClassPreferenceOptionsInstance = new ClassPreferenceOptions();
-            ClassPreferenceOptionsInstance.ShowModal();  //Opens the class name input window in the file "ClassPreferenceOptions.xaml"
-
-            if (!ClassPreferenceOptionsInstance.result)
+            if (!fastClassesMMBControlInstance.result)
                 return; //Check if the class name was successfully input
 
-            string className = ClassPreferenceOptionsInstance.inputClassName; //get the className
-            
+            ClassTemplateWriter.initializeMembers(fastClassesMMBControlInstance.inputClassName); //get the className
+
             switch (item.CommandID.ID)
             {
                 case makeClassOption1:
-                    ClassFormWriter.ClassDeclarationTemplates.fastClassOption1(className);
+                    ClassTemplateWriter.ClassDeclarationTemplates.fastClassOption1();
                     break;
                 case makeClassOption2:
-                    ClassFormWriter.ClassDeclarationTemplates.fastClassOption2(className);
+                    ClassTemplateWriter.ClassDeclarationTemplates.fastClassOption2();
                     break;
                 case makeClassOption3:
-                    ClassFormWriter.ClassDeclarationTemplates.fastClassOption3(className);
+                    ClassTemplateWriter.ClassDeclarationTemplates.fastClassOption3();
                     break;
             } 
         }

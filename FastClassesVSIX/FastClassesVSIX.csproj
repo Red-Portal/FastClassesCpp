@@ -51,8 +51,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ClassPreferenceOptions.xaml.cs">
-      <DependentUpon>ClassPreferenceOptions.xaml</DependentUpon>
+    <Compile Include="FastClassesModalMessageDialogBoxControl.xaml.cs">
+      <DependentUpon>FastClassesModalMessageDialogBoxControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditorClassifier.cs" />
     <Compile Include="EditorClassifierClassificationDefinition.cs" />
@@ -215,7 +215,7 @@
     <Content Include="Resources\FastClassesCppPackage.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ClassPreferenceOptions.xaml">
+    <Page Include="FastClassesModalMessageDialogBoxControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

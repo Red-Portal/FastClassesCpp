@@ -11,12 +11,12 @@ namespace FastClassesVSIX
     /// <summary>
     /// Interaction logic for ClassPreferenceOptions.xaml.
     /// </summary>
-    public partial class ClassPreferenceOptions : DialogWindow
+    public partial class FastClassesModalMessageDialogBoxControl : DialogWindow
     {
         
         public string inputClassName;
         public bool result;
-        public ClassPreferenceOptions()
+        public FastClassesModalMessageDialogBoxControl()
         {
             InitializeComponent();
             this.HasMinimizeButton = false;
@@ -40,8 +40,8 @@ namespace FastClassesVSIX
                 //  if(ClassNameInputTextBox.Text == String.Empty)
                 //the exception handling stuff your supposed to do
                 inputClassName = ClassNameInputTextBox.Text;
-                if (CheckClassNameAvailability(inputClassName))
-                    result = false;
+                if (!CheckClassNameAvailability(inputClassName))
+                    return;
 
                 result = true;
                 this.Close();
@@ -52,7 +52,5 @@ namespace FastClassesVSIX
                 this.Close();
             }
         }
-
-
     }
 }

@@ -8,7 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Design;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
@@ -81,126 +83,176 @@ namespace FastClassesVSIX
     {
         public void TextViewCreated(IWpfTextView textView)
         {
-            ClassFormWriter.ClassFormWriterMembers.initializeFromParent(textView);
+            ClassTemplateWriter.initializeFromParent(textView);
         }
     }
 
-    static class ClassFormWriter //singleton for writing the class Templates into the editor
+    static class ClassTemplateWriter //singleton for writing the class Templates into the editor
     {
-        internal static class ClassFormWriterMembers //the abstracted singleton members etc..
+        private static class ClassTemplateWriterMembers //the abstracted singleton members etc..
         {
-            public static void initializeFromParent(IWpfTextView view)
-            {
-                m_view = view; //the view for the editor
-            }
-
+            
             public static void resetSnapshotLength()
             {
-                m_length = m_view.TextBuffer.CurrentSnapshot.Length; //length of the current text on the editor. This is required for writing class templates in the bottom of the editor
+                Codelength = view.TextBuffer.CurrentSnapshot.Length; //length of the current text on the editor. This is required for writing class templates in the bottom of the editor
+                edit = view.TextBuffer.CreateEdit();
             }
 
-            internal static IWpfTextView m_view;
-            internal static int m_length;
+            public static IWpfTextView view;
+            public static ITextEdit edit; 
+            public static int Codelength;
+            public static string className;
+
+            public static class ClassDeclarationTemplates
+            {
+                public static string Option1()
+                {
+                    return '\n' +
+                           "class " + className + '\n' +
+                           "{\n" +
+                           "private:\n" +
+                           "public:\n" +
+                           className + "();\n" +
+                           '~' + className + "();\n" +
+                           '}';
+                }
+
+                public static string Option2()
+                {
+                    return '\n' +
+                           "class " + className + '\n' +
+                           "{\n" +
+                           "private:\n" +
+                           "public:\n" +
+                           className + "();\n" +
+                           className + "(const " + className + "& other);\n" +
+                           className + "& operator=(const " + className + "& other);\n" +
+                           '~' + className + "();\n" +
+                           '}';
+                }
+
+                public static string Option3()
+                {
+                    return '\n' +
+                           "class " + className + '\n' +
+                           "{\n" +
+                           "private:\n" +
+                           "public:\n" +
+                           className + "();\n" +
+                           className + "(const " + className + "& other);\n" +
+                           className + "(" + className + "&& other);\n" +
+                           className + "& operator=(const " + className + "& other);\n" +
+                           className + "& operator=(" + className + "&& other);\n" +
+                           '~' + className + "();\n" +
+                           '}';
+                }
+            }
+            
+            public static class ClassDefinitionTemplates
+            {
+                public static string Option1()
+                {
+                    return '\n' +
+                           className + "::" + className + "() {}\n" +
+                           className + "::" + '~' + className + "() {}\n";
+                }
+
+                public static string Option2()
+                {
+                    return '\n' +
+                            className + "::" + className + "() {}\n" +
+                            className + "::" + className + "(const " + className +
+                            "& other) {}\n" +
+                            className + "::" + className + "& operator=(const " + className +
+                            "& other) {}\n" +
+                            className + "::" + className + '~' + className + "() {}\n";
+                }
+
+                public static string Option3()
+                {
+                    return  '\n' +
+                            className + "::" + className + "() {}\n" +
+                            className + "::" + className + "(const " + className +
+                            "& other) {}\n" +
+                            className + "::" + className + "(" + className +
+                            "&& other) {}\n" +
+                            className + "::" + className + "& operator=(const " + className +
+                            "& other) {}\n" +
+                            className + "::" + className + "& operator=(" + className +
+                            "&& other) {}\n" +
+                            className + "::" + className + '~' + className + "() {}\n";
+                }
+            }
+        }
+        
+        /// <summary>
+        /// initialize the hidden members of the singleton. This class MUST BE CALLED EVERY TIME
+        /// THERE IS A CHANGE IN THE DATA OF THE MODAL DIALOG BOX.
+        /// Get the input ClassName and initialize all the templates,
+        /// reset the editor text snapshot length so we properly find the new 'end' of the text.
+        /// </summary>
+        /// <param name="className"></param>
+        public static void initializeMembers(string className)
+        {
+            ClassTemplateWriterMembers.className = className;
+            ClassTemplateWriterMembers.resetSnapshotLength();
+        }
+
+        /// <summary>
+        /// Initialize the wpfviewCreationListner from 'TextViewCreationListener'
+        /// This only pass the view for the creationListener to the static singleton
+        /// </summary>
+        /// <param name="view"></param>
+        internal static void initializeFromParent(IWpfTextView view)
+        {
+            ClassTemplateWriterMembers.view = view; //the view for the editor
         }
 
         public static class ClassDeclarationTemplates
         {
-            public static void fastClassOption1(string className)
+            public static void fastClassOption1()
             {
-                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-                ClassFormWriterMembers.resetSnapshotLength();
-                edit.Insert(ClassFormWriterMembers.m_length,
-                    '\n' +
-                    "class " + className + '\n' +
-                    "{\n" +
-                    "private:\n" +
-                    "public:\n" +
-                    className + "();\n" +
-                    '~' + className + "();\n" +
-                    '}');
-                edit.Apply();
+                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
+                    ClassTemplateWriterMembers.ClassDeclarationTemplates.Option1());
+                ClassTemplateWriterMembers.edit.Apply();
             }
 
-            public static void fastClassOption2(string className)
+            public static void fastClassOption2()
             {
-                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-                ClassFormWriterMembers.resetSnapshotLength();
-                edit.Insert(ClassFormWriterMembers.m_length,
-                    '\n' +
-                    "class " + className + '\n' +
-                    "{\n" +
-                    "private:\n" +
-                    "public:\n" +
-                    className + "();\n" +
-                    className + "(const " + className + "& other);\n" +
-                    className + "& operator=(const " + className + "& other);\n" +
-                    '~' + className + "();\n" +
-                    '}');
-                edit.Apply();
+                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
+                    ClassTemplateWriterMembers.ClassDeclarationTemplates.Option2());
+                ClassTemplateWriterMembers.edit.Apply();
             }
 
-            public static void fastClassOption3(string className)
+            public static void fastClassOption3()
             {
-                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-                ClassFormWriterMembers.resetSnapshotLength();
-                edit.Insert(ClassFormWriterMembers.m_length,
-                    '\n' +
-                    "class " + className + '\n' +
-                    "{\n" +
-                    "private:\n" +
-                    "public:\n" +
-                    className + "();\n" +
-                    className + "(const " + className + "& other);\n" +
-                    className + "(" + className + "&& other);\n" +
-                    className + "& operator=(const " + className + "& other);\n" +
-                    className + "& operator=(" + className + "&& other);\n" +
-                    '~' + className + "();\n" +
-                    '}');
-                edit.Apply();
+                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
+                    ClassTemplateWriterMembers.ClassDeclarationTemplates.Option3());
+                ClassTemplateWriterMembers.edit.Apply();
             }
-            
-
         }
 
-        static class ClassDefinitionTemplates
+        public static class ClassDefinitionTemplates
         {
-            public static void fastClassOption1(string className)
+            public static void fastClassOption1()
             {
-                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-                ClassFormWriterMembers.resetSnapshotLength();
-                edit.Insert(ClassFormWriterMembers.m_length,
-                    '\n' +
-                    className + "::" + className + "() {}\n" +
-                    className + "::" + '~' + className + "() {}\n");
-                edit.Apply();
+                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
+                    ClassTemplateWriterMembers.ClassDefinitionTemplates.Option1());
+                ClassTemplateWriterMembers.edit.Apply();
             }
 
-            public static void fastClassOption2(string className)
+            public static void fastClassOption2()
             {
-                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-                ClassFormWriterMembers.resetSnapshotLength();
-                edit.Insert(ClassFormWriterMembers.m_length,
-                    '\n' +
-                    className + "::" + className + "() {}\n" +
-                    className + "::" + className + "(const " + className + "& other) {}\n" +
-                    className + "::" + className + "& operator=(const " + className + "& other) {}\n" +
-                    className + "::" + className + '~' + className + "() {}\n");
-                edit.Apply();
+                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
+                    ClassTemplateWriterMembers.ClassDefinitionTemplates.Option2());
+                ClassTemplateWriterMembers.edit.Apply();
             }
 
-           public static void fastClassOption3(string className)
+           public static void fastClassOption3()
             {
-                ITextEdit edit = ClassFormWriterMembers.m_view.TextBuffer.CreateEdit();
-                ClassFormWriterMembers.resetSnapshotLength();
-                edit.Insert(ClassFormWriterMembers.m_length,
-                    '\n' +
-                    className + "::" + className + "() {}\n" +
-                    className + "::" + className + "(const " + className + "& other) {}\n" +
-                    className + "::" + className + "(" + className + "&& other) {}\n" +
-                    className + "::" + className + "& operator=(const " + className + "& other) {}\n" +
-                    className + "::" + className + "& operator=(" + className + "&& other) {}\n" +
-                    className + "::" + className + '~' + className + "() {}\n");
-                edit.Apply();
+                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
+                    ClassTemplateWriterMembers.ClassDefinitionTemplates.Option3());
+                ClassTemplateWriterMembers.edit.Apply();
             }
         }
     }

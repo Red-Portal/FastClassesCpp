@@ -7,6 +7,7 @@
 using System;
 using System.ComponentModel.Design;
 using System.Globalization;
+using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 
 namespace FastClassesVSIX
@@ -108,21 +109,27 @@ namespace FastClassesVSIX
             var fastClassesMMBControlInstance = new FastClassesModalMessageDialogBoxControl();
             fastClassesMMBControlInstance.ShowModal();  //Opens the class name input window in the file "ClassPreferenceOptions.xaml"
 
-            if (!fastClassesMMBControlInstance.result)
+            if (!fastClassesMMBControlInstance.Result)
+            {
+                MessageBox.Show("error: could not accept class name");
                 return; //Check if the class name was successfully input
+            }
 
-            ClassTemplateWriter.initializeMembers(fastClassesMMBControlInstance.inputClassName); //get the className
+            ClassTemplateWriter.initializeMembers(fastClassesMMBControlInstance.InputClassName); //get the className
 
             switch (item.CommandID.ID)
             {
+                default:
+                    MessageBox.Show("error: menu command does not match any command guid");
+                    break;
                 case makeClassOption1:
-                    ClassTemplateWriter.ClassDeclarationTemplates.fastClassOption1();
+                    ClassTemplateWriter.ClassDeclarationTemplates.InsertClassBasic();
                     break;
                 case makeClassOption2:
-                    ClassTemplateWriter.ClassDeclarationTemplates.fastClassOption2();
+                    ClassTemplateWriter.ClassDeclarationTemplates.InsertClassWithCopy();
                     break;
                 case makeClassOption3:
-                    ClassTemplateWriter.ClassDeclarationTemplates.fastClassOption3();
+                    ClassTemplateWriter.ClassDeclarationTemplates.InsertClassWithMove();
                     break;
             } 
         }

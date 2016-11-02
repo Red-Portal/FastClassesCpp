@@ -105,7 +105,7 @@ namespace FastClassesVSIX
 
             public static class ClassDeclarationTemplates
             {
-                public static string Option1()
+                public static string classBasic()
                 {
                     return '\n' +
                            "class " + className + '\n' +
@@ -117,7 +117,7 @@ namespace FastClassesVSIX
                            '}';
                 }
 
-                public static string Option2()
+                public static string classWithCopy()
                 {
                     return '\n' +
                            "class " + className + '\n' +
@@ -131,7 +131,7 @@ namespace FastClassesVSIX
                            '}';
                 }
 
-                public static string Option3()
+                public static string classWithMove()
                 {
                     return '\n' +
                            "class " + className + '\n' +
@@ -150,37 +150,31 @@ namespace FastClassesVSIX
             
             public static class ClassDefinitionTemplates
             {
-                public static string Option1()
+                public static string classBasic()
                 {
                     return '\n' +
                            className + "::" + className + "() {}\n" +
                            className + "::" + '~' + className + "() {}\n";
                 }
 
-                public static string Option2()
+                public static string classWithCopy()
                 {
                     return '\n' +
                             className + "::" + className + "() {}\n" +
-                            className + "::" + className + "(const " + className +
-                            "& other) {}\n" +
-                            className + "::" + className + "& operator=(const " + className +
-                            "& other) {}\n" +
+                            className + "::" + className + "(const " + className +  "& other) {}\n" +
+                            className + "::" + className + "& operator=(const " + className +   "& other) {}\n" +
                             className + "::" + className + '~' + className + "() {}\n";
                 }
 
-                public static string Option3()
+                public static string classWithMove()
                 {
-                    return  '\n' +
-                            className + "::" + className + "() {}\n" +
-                            className + "::" + className + "(const " + className +
-                            "& other) {}\n" +
-                            className + "::" + className + "(" + className +
-                            "&& other) {}\n" +
-                            className + "::" + className + "& operator=(const " + className +
-                            "& other) {}\n" +
-                            className + "::" + className + "& operator=(" + className +
-                            "&& other) {}\n" +
-                            className + "::" + className + '~' + className + "() {}\n";
+                    return '\n' +
+                           className + "::" + className + "() {}\n" +
+                           className + "::" + className + "(const " + className + "& other) {}\n" +
+                           className + "::" + className + "(" + className + "&& other) {}\n" +
+                           className + "::" + className + "& operator=(const " + className + "& other) {}\n" +
+                           className + "::" + className + "& operator=(" + className + "&& other) {}\n" +
+                           className + "::" + className + '~' + className + "() {}\n";
                 }
             }
         }
@@ -210,48 +204,48 @@ namespace FastClassesVSIX
 
         public static class ClassDeclarationTemplates
         {
-            public static void fastClassOption1()
+            public static void InsertClassBasic()
             {
                 ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
-                    ClassTemplateWriterMembers.ClassDeclarationTemplates.Option1());
+                    ClassTemplateWriterMembers.ClassDeclarationTemplates.classBasic());
                 ClassTemplateWriterMembers.edit.Apply();
             }
 
-            public static void fastClassOption2()
+            public static void InsertClassWithCopy()
             {
                 ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
-                    ClassTemplateWriterMembers.ClassDeclarationTemplates.Option2());
+                    ClassTemplateWriterMembers.ClassDeclarationTemplates.classWithCopy());
                 ClassTemplateWriterMembers.edit.Apply();
             }
 
-            public static void fastClassOption3()
+            public static void InsertClassWithMove()
             {
                 ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
-                    ClassTemplateWriterMembers.ClassDeclarationTemplates.Option3());
+                    ClassTemplateWriterMembers.ClassDeclarationTemplates.classWithMove());
                 ClassTemplateWriterMembers.edit.Apply();
             }
         }
 
         public static class ClassDefinitionTemplates
         {
-            public static void fastClassOption1()
+            public static void InsertClassBasic()
             {
                 ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
-                    ClassTemplateWriterMembers.ClassDefinitionTemplates.Option1());
+                    ClassTemplateWriterMembers.ClassDefinitionTemplates.classBasic());
                 ClassTemplateWriterMembers.edit.Apply();
             }
 
-            public static void fastClassOption2()
+            public static void InsertClassWithCopy()
             {
                 ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
-                    ClassTemplateWriterMembers.ClassDefinitionTemplates.Option2());
+                    ClassTemplateWriterMembers.ClassDefinitionTemplates.classWithCopy());
                 ClassTemplateWriterMembers.edit.Apply();
             }
 
-           public static void fastClassOption3()
+            public static void InsertClassWithMove()
             {
                 ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
-                    ClassTemplateWriterMembers.ClassDefinitionTemplates.Option3());
+                    ClassTemplateWriterMembers.ClassDefinitionTemplates.classWithMove());
                 ClassTemplateWriterMembers.edit.Apply();
             }
         }

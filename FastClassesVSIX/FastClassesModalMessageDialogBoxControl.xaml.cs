@@ -14,14 +14,14 @@ namespace FastClassesVSIX
     public partial class FastClassesModalMessageDialogBoxControl : DialogWindow
     {
         
-        public string inputClassName;
-        public bool result;
+        public string InputClassName;
+        public bool Result;
         public FastClassesModalMessageDialogBoxControl()
         {
             InitializeComponent();
             this.HasMinimizeButton = false;
             this.HasMaximizeButton = false;
-            result = false;
+            Result = false;
         }
 
         private bool CheckClassNameAvailability(string inputClassName)
@@ -39,16 +39,16 @@ namespace FastClassesVSIX
             {
                 //  if(ClassNameInputTextBox.Text == String.Empty)
                 //the exception handling stuff your supposed to do
-                inputClassName = ClassNameInputTextBox.Text;
-                if (!CheckClassNameAvailability(inputClassName))
+                InputClassName = ClassNameInputTextBox.Text;
+                if (!CheckClassNameAvailability(InputClassName))
                     return;
 
-                result = true;
+                Result = true;
                 this.Close();
             }
             if (e.Key == Key.Cancel || e.Key == Key.Escape)
             {
-                result = false;
+                Result = false;
                 this.Close();
             }
         }

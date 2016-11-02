@@ -114,7 +114,7 @@ namespace FastClassesVSIX
                            "public:\n" +
                            className + "();\n" +
                            '~' + className + "();\n" +
-                           '}';
+                           "};";
                 }
 
                 public static string classWithCopy()
@@ -128,7 +128,7 @@ namespace FastClassesVSIX
                            className + "(const " + className + "& other);\n" +
                            className + "& operator=(const " + className + "& other);\n" +
                            '~' + className + "();\n" +
-                           '}';
+                           "};";
                 }
 
                 public static string classWithMove()
@@ -144,7 +144,7 @@ namespace FastClassesVSIX
                            className + "& operator=(const " + className + "& other);\n" +
                            className + "& operator=(" + className + "&& other);\n" +
                            '~' + className + "();\n" +
-                           '}';
+                           "};";
                 }
             }
             
@@ -154,7 +154,7 @@ namespace FastClassesVSIX
                 {
                     return '\n' +
                            className + "::" + className + "() {}\n" +
-                           className + "::" + '~' + className + "() {}\n";
+                           className + "::~" + className + "() {}\n";
                 }
 
                 public static string classWithCopy()
@@ -162,8 +162,8 @@ namespace FastClassesVSIX
                     return '\n' +
                             className + "::" + className + "() {}\n" +
                             className + "::" + className + "(const " + className +  "& other) {}\n" +
-                            className + "::" + className + "& operator=(const " + className +   "& other) {}\n" +
-                            className + "::" + className + '~' + className + "() {}\n";
+                            className + "& "+ className + "::" + "operator=(const " + className +   "& other) {}\n" +
+                            className + "::~" + className + "() {}\n";
                 }
 
                 public static string classWithMove()
@@ -172,9 +172,9 @@ namespace FastClassesVSIX
                            className + "::" + className + "() {}\n" +
                            className + "::" + className + "(const " + className + "& other) {}\n" +
                            className + "::" + className + "(" + className + "&& other) {}\n" +
-                           className + "::" + className + "& operator=(const " + className + "& other) {}\n" +
-                           className + "::" + className + "& operator=(" + className + "&& other) {}\n" +
-                           className + "::" + className + '~' + className + "() {}\n";
+                           className + "& " + className + "::" + "operator=(const " + className + "& other) {}\n" +
+                           className + "& " + className + "::" + "operator=(" + className + "&& other) {}\n" +
+                           className + "::~" + className + "() {}\n";
                 }
             }
         }

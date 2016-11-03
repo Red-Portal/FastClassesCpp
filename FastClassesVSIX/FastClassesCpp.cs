@@ -24,10 +24,10 @@ namespace FastClassesVSIX
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int makeClassOption1 = 0x0100;
+        public const int commandMakeClassBasic = 0x0100;
 
-        public const int makeClassOption2 = 0x0101;
-        public const int makeClassOption3 = 0x0102;
+        public const int commandMakeClassWithCopy = 0x0101;
+        public const int commandMakeClassWithMove = 0x0102;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -57,15 +57,15 @@ namespace FastClassesVSIX
                 this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
             {
-                var makeClassOption1_cmdID = new CommandID(CommandSet, makeClassOption1);
+                var makeClassOption1_cmdID = new CommandID(CommandSet, commandMakeClassBasic);
                 var makeClassOption1_menuItem = new MenuCommand(this.MenuItemCallback, makeClassOption1_cmdID);
                 commandService.AddCommand(makeClassOption1_menuItem);
 
-                var makeClassOption2_cmdID = new CommandID(CommandSet, makeClassOption2);
+                var makeClassOption2_cmdID = new CommandID(CommandSet, commandMakeClassWithCopy);
                 var makeClassOption2_menuItem = new MenuCommand(this.MenuItemCallback, makeClassOption2_cmdID);
                 commandService.AddCommand(makeClassOption2_menuItem);
 
-                var makeClassOption3_cmdID = new CommandID(CommandSet, makeClassOption3);
+                var makeClassOption3_cmdID = new CommandID(CommandSet, commandMakeClassWithMove);
                 var makeClassOption3_menuItem = new MenuCommand(this.MenuItemCallback, makeClassOption3_cmdID);
                 commandService.AddCommand(makeClassOption3_menuItem);
             }
@@ -201,6 +201,8 @@ namespace FastClassesVSIX
             return 0;
         }
 
+
+
         /// This function is the callback used to execute the command when the menu item is clicked.
         /// See the constructor to see how the menu item is associated with this function using
         /// OleMenuCommandService service and MenuCommand class.
@@ -211,7 +213,7 @@ namespace FastClassesVSIX
         {
             var dte = (DTE2) ServiceProvider.GetService(typeof(DTE));
             var item = (MenuCommand) sender;
-            var documentType = getDocumentTypeOneIsDefTwoIsDecl(dte);
+            var documentType = getDocumentTypeOneIsDefTwoIsDecl(dte); //get the document type (source file or header file)
 
             if (documentType == 0) //exception, invalid file type
                 return;
@@ -225,40 +227,40 @@ namespace FastClassesVSIX
                 return; //Check if the class name was successfully input
             }
 
-            ClassTemplateWriter.initializeMembers(fastClassesMMBControlInstance.InputClassName); //get the className
+            ClassTemplateWriter.initializeMembers(fastClassesMMBControlInstance.InputClassName); // initialize the class Templates stuff
 
-            if (documentType == 1)
+            if (documentType == 1) //if the current active ducument is a Source file
             {
                 switch (item.CommandID.ID)
                 {
                     default:
                         MessageBox.Show("error: menu command does not match any command guid");
                         break;
-                    case makeClassOption1:
+                    case commandMakeClassBasic:
                         ClassTemplateWriter.ClassDefinitionTemplates.InsertClassBasic();
                         break;
-                    case makeClassOption2:
+                    case commandMakeClassWithCopy:
                         ClassTemplateWriter.ClassDefinitionTemplates.InsertClassWithCopy();
                         break;
-                    case makeClassOption3:
+                    case commandMakeClassWithMove:
                         ClassTemplateWriter.ClassDefinitionTemplates.InsertClassWithMove();
                         break;
                 }
             }
-            if (documentType == 2)
+            if (documentType == 2) //if the current active document is a header file
             {
                 switch (item.CommandID.ID)
                 {
                     default:
                         MessageBox.Show("error: menu command does not match any command guid");
                         break;
-                    case makeClassOption1:
+                    case commandMakeClassBasic:
                         ClassTemplateWriter.ClassDeclarationTemplates.InsertClassBasic();
                         break;
-                    case makeClassOption2:
+                    case commandMakeClassWithCopy:
                         ClassTemplateWriter.ClassDeclarationTemplates.InsertClassWithCopy();
                         break;
-                    case makeClassOption3:
+                    case commandMakeClassWithMove:
                         ClassTemplateWriter.ClassDeclarationTemplates.InsertClassWithMove();
                         break;
                 }

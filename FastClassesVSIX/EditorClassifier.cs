@@ -95,13 +95,14 @@ namespace FastClassesVSIX
             public static void resetSnapshotLength()
             {
                 Codelength = view.TextBuffer.CurrentSnapshot.Length; //length of the current text on the editor. This is required for writing class templates in the bottom of the editor
-                edit = view.TextBuffer.CreateEdit();
             }
+
 
             public static IWpfTextView view;
             public static ITextEdit edit; 
             public static int Codelength;
             public static string className;
+
 
             public static class ClassDeclarationTemplates
             {
@@ -190,6 +191,7 @@ namespace FastClassesVSIX
         {
             ClassTemplateWriterMembers.className = className;
             ClassTemplateWriterMembers.resetSnapshotLength();
+            ClassTemplateWriterMembers.edit = ClassTemplateWriterMembers.view.TextBuffer.CreateEdit();
         }
 
         /// <summary>
@@ -206,26 +208,25 @@ namespace FastClassesVSIX
         {
             public static void InsertClassBasic()
             {
-                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
+                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength - 1,
                     ClassTemplateWriterMembers.ClassDeclarationTemplates.classBasic());
                 ClassTemplateWriterMembers.edit.Apply();
             }
 
             public static void InsertClassWithCopy()
             {
-                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
+                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength - 1,
                     ClassTemplateWriterMembers.ClassDeclarationTemplates.classWithCopy());
                 ClassTemplateWriterMembers.edit.Apply();
             }
 
             public static void InsertClassWithMove()
             {
-                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength,
+                ClassTemplateWriterMembers.edit.Insert(ClassTemplateWriterMembers.Codelength - 1, //-1 is because of #endif. this might look like shit and it is shit. I'll change it later
                     ClassTemplateWriterMembers.ClassDeclarationTemplates.classWithMove());
                 ClassTemplateWriterMembers.edit.Apply();
             }
         }
-
         public static class ClassDefinitionTemplates
         {
             public static void InsertClassBasic()

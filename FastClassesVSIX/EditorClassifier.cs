@@ -76,6 +76,8 @@ namespace FastClassesVSIX
         #endregion
     }
 
+    
+    /*
     [ContentType("Code")]
     [Export(typeof(IWpfTextViewCreationListener))]
     [TextViewRole(PredefinedTextViewRoles.Editable)]
@@ -86,6 +88,7 @@ namespace FastClassesVSIX
             ClassTemplateWriter.initializeFromParent(textView);
         }
     }
+    */
 
     static class ClassTemplateWriter //singleton for writing the class Templates into the editor
     {
@@ -94,7 +97,7 @@ namespace FastClassesVSIX
             
             public static void resetSnapshotLength()
             {
-                Codelength = view.TextBuffer.CurrentSnapshot.Length; //length of the current text on the editor. This is required for writing class templates in the bottom of the editor
+                Codelength = view.TextSnapshot.Length; //length of the current text on the editor. This is required for writing class templates in the bottom of the editor
             }
 
 
@@ -187,10 +190,11 @@ namespace FastClassesVSIX
         /// reset the editor text snapshot length so we properly find the new 'end' of the text.
         /// </summary>
         /// <param name="className"></param>
-        public static void initializeMembers(string className)
+        public static void initializeMembers(string className, IWpfTextView activeView)
         {
             ClassTemplateWriterMembers.className = className;
             ClassTemplateWriterMembers.resetSnapshotLength();
+            ClassTemplateWriterMembers.view = activeView;
             ClassTemplateWriterMembers.edit = ClassTemplateWriterMembers.view.TextBuffer.CreateEdit();
         }
 

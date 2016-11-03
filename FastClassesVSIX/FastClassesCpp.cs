@@ -5,6 +5,7 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Globalization;
@@ -13,6 +14,8 @@ using System.Windows.Forms;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace FastClassesVSIX
 {
@@ -202,6 +205,15 @@ namespace FastClassesVSIX
         }
 
 
+        public IWpfTextView getActiveTextView(IServiceProvider serviceProvider)
+        {
+            var txtManager = (IVsTextManager) ServiceProvider.GetService(typeof(SVsTextManager));
+            IVsTextView textViewCurrent;
+
+            txtManager.GetActiveView(1, null, out textViewCurrent);
+
+            return (IWpfTextView) textViewCurrent;
+        }
 
         /// This function is the callback used to execute the command when the menu item is clicked.
         /// See the constructor to see how the menu item is associated with this function using
@@ -211,6 +223,7 @@ namespace FastClassesVSIX
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
+            
             var dte = (DTE2) ServiceProvider.GetService(typeof(DTE));
             var item = (MenuCommand) sender;
             var documentType = getDocumentTypeOneIsDefTwoIsDecl(dte); //get the document type (source file or header file)
@@ -227,7 +240,7 @@ namespace FastClassesVSIX
                 return; //Check if the class name was successfully input
             }
 
-            ClassTemplateWriter.initializeMembers(fastClassesMMBControlInstance.InputClassName); // initialize the class Templates stuff
+            ClassTemplateWriter.initializeMembers(fastClassesMMBControlInstance.InputClassName, getActiveTextView(ServiceProvider)); // initialize the class Templates stuff
 
             if (documentType == 1) //if the current active ducument is a Source file
             {

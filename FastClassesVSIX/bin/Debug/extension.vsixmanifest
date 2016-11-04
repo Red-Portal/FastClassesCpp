@@ -1,0 +1,33 @@
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
+  <Metadata>
+    <Identity Id="204b01d6-66b6-4220-834b-3b304ac6532d" Version="1.0" Language="en-US" Publisher="Ray Kim" />
+    <DisplayName>Visual Studio Fast Classes C++</DisplayName>
+    <Description xml:space="preserve">This adds a commands to your context menu(right click) that can easily generate a C++ class template.
+
+You can select any type of class design provided below.
+A declaration will be added in your selected header file,
+And empty methods will be added to your selected definition source file.
+
++ Class
+Comes only with a default constructor and a default destructor.
+
++ Class w/ Copy
+Comes with the above, a const reference copy constructor, and a const reference copy assign operator.
+
++ Class w/ Move
+Comes with the above, a move copy constructor, and a move copy assign operator.</Description>
+    <Tags>C++, class, refactoring, command,</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" Version="[4.5,)" />
+    <Dependency Id="Microsoft.VisualStudio.MPF.14.0" DisplayName="Visual Studio MPF 14.0" Version="[14.0]" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" Path="FastClassesVSIX.pkgdef" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="FastClassesVSIX.dll" />
+    <Asset Type="Microsoft.VisualStudio.ToolboxControl" Path="FastClassesVSIX.pkgdef" />
+  </Assets>
+</PackageManifest>

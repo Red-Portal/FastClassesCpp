@@ -1,0 +1,19 @@
+﻿<platformUi:DialogWindow x:Class="FastClassesVSIX.FastClassesModalMessageDialogBoxControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
+             mc:Ignorable="d" 
+             WindowStartupLocation="CenterScreen"         
+             Width="400" Height="100"
+             Background="DimGray">
+    <StackPanel>
+        <TextBlock Name="InputTextBlock"  Margin="7" Text="Enter the Name of Class" Foreground="WhiteSmoke" FontWeight="Normal" FontFamily="Calibri"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        </StackPanel>
+        <TextBox MinWidth="300" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ClassNameInputTextBox" KeyDown="ClassNameInputTextBox_OnKeyDown" />
+        <TextBlock x:Name="ErrorTextBlock" Margin="2" FontSize ="12"  TextAlignment="Center" Foreground="DarkRed" FontWeight="Normal" FontFamily="Calibri"/>
+    </StackPanel>
+</platformUi:DialogWindow>
+

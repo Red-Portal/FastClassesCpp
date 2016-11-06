@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace FastClassesVSIX
 {
@@ -25,7 +26,6 @@ namespace FastClassesVSIX
         /// Command ID.
         /// </summary>
         public const int commandMakeClassBasic = 0x0100;
-
         public const int commandMakeClassWithCopy = 0x0101;
         public const int commandMakeClassWithMove = 0x0102;
 
@@ -195,13 +195,14 @@ namespace FastClassesVSIX
                 return 1;
             else if (dte.ActiveDocument.FullName.Contains(".hpp") || dte.ActiveDocument.FullName.Contains(".h"))
                 return 2;
-
-            MessageBox.Show("errror invalid file type");
+            else
+                MessageBox.Show("error unknown file type. Please use C++ file types like .h, .hpp, .cpp");
 
             return 0;
         }
 
 
+       
 
         /// This function is the callback used to execute the command when the menu item is clicked.
         /// See the constructor to see how the menu item is associated with this function using
@@ -212,11 +213,18 @@ namespace FastClassesVSIX
         private void MenuItemCallback(object sender, EventArgs e)
         {
             var dte = (DTE2) ServiceProvider.GetService(typeof(DTE));
+            var txtManager = (IVsTextManager) ServiceProvider.GetService(typeof(SVsTextManager));
             var item = (MenuCommand) sender;
+
+            IVsTextView currentView;
+            txtManager.GetActiveView(1, null, out currentView);
+
+
             var documentType = getDocumentTypeOneIsDefTwoIsDecl(dte); //get the document type (source file or header file)
 
             if (documentType == 0) //exception, invalid file type
                 return;
+
 
             var fastClassesMMBControlInstance = new FastClassesModalMessageDialogBoxControl();
             fastClassesMMBControlInstance.ShowModal();  //Opens the class name input window in the file "ClassPreferenceOptions.xaml"
@@ -227,10 +235,9 @@ namespace FastClassesVSIX
                 return; //Check if the class name was successfully input
             }
 
-            ClassTemplateWriter.initializeMembers(fastClassesMMBControlInstance.InputClassName); // initialize the class Templates stuff
+            ClassTemplateWriter.initializeMembers(fastClassesMMBControlInstance.InputClassName, currentView); // initialize the class Templates stuff
 
             if (documentType == 1) //if the current active ducument is a Source file
-            {
                 switch (item.CommandID.ID)
                 {
                     default:
@@ -246,9 +253,8 @@ namespace FastClassesVSIX
                         ClassTemplateWriter.ClassDefinitionTemplates.InsertClassWithMove();
                         break;
                 }
-            }
+
             if (documentType == 2) //if the current active document is a header file
-            {
                 switch (item.CommandID.ID)
                 {
                     default:
@@ -264,7 +270,6 @@ namespace FastClassesVSIX
                         ClassTemplateWriter.ClassDeclarationTemplates.InsertClassWithMove();
                         break;
                 }
-            }
         }
     }
 }

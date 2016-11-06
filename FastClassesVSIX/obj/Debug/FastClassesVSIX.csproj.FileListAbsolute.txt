@@ -75,3 +75,5 @@ d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Deb
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Debug\FastClassesVSIX.g.resources
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Debug\FastClassesModalMessageDialogBoxControl.baml
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Debug\FastClassesModalMessageDialogBoxControl.g.cs
+d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\Microsoft.VisualStudio.Editor.dll
+d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\Microsoft.VisualStudio.Editor.xml

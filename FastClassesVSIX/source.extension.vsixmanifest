@@ -3,21 +3,47 @@
   <Metadata>
     <Identity Id="204b01d6-66b6-4220-834b-3b304ac6532d" Version="1.0" Language="en-US" Publisher="Ray Kim" />
     <DisplayName>Visual Studio Fast Classes C++</DisplayName>
-    <Description xml:space="preserve">This adds a commands to your context menu(right click) that can easily generate a C++ class template.
+    <Description xml:space="preserve">This adds a commands to your context menu(right click) that can easily generate basic C++ class snippets.
 
 You can select any type of class design provided below.
-A declaration will be added in your selected header file,
-And empty methods will be added to your selected definition source file.
+When you press the command a dialog box where you can insert the class name will show.
+The plugin will detact wether the document your currently on is a source file(.cpp) or a header file(.h, .hpp)
+and insert snippets of class declaration and definition accordingly.
 
 + Class
 Comes only with a default constructor and a default destructor.
 
+class ClassName
+{
+    ClassName();
+    ~ClassName();
+};
+
 + Class w/ Copy
 Comes with the above, a const reference copy constructor, and a const reference copy assign operator.
 
+class ClassName
+{
+    ClassName();
+    ClassName(const ClassName&amp; other);
+    ClassName&amp; operator=(const ClassName&amp; other);
+    ~ClassName();
+};
+
 + Class w/ Move
-Comes with the above, a move copy constructor, and a move copy assign operator.</Description>
-    <Tags>C++, class, refactoring, command,</Tags>
+Comes with the above, a move copy constructor, and a move copy assign operator.
+
+class ClassName
+{
+    ClassName();
+    ClassName(const ClassName&amp; other);
+    ClassName(ClassName&amp;&amp; other);
+    ClassName&amp; operator=(const ClassName&amp; other);
+    ClassName&amp; operator=(ClassName&amp;&amp; other);
+    ~ClassName();
+};</Description>
+    <Icon>icon.ico</Icon>
+    <Tags>C++, class, refactoring, command, snippets,</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />

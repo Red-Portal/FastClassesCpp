@@ -94,16 +94,18 @@ namespace FastClassesVSIX
             public static int Codelength;
             public static string ClassName;
 
-            /// <summary>
-            /// This method receives the current view and converts it to an IWpfTextView.
-            /// So we can extract the text editor, buffer etc from it
-            /// </summary>
-            /// <param name="vTextView"></param>
-            /// <returns></returns>
-            public static IWpfTextView GetWpfTextView(IVsTextView vTextView)
+                /// <summary>
+                /// This method receives the current view and converts it to an IWpfTextView.
+                /// </summary>
+                /// <param name="txtManager"></param>
+                /// <returns></returns>
+            public static IWpfTextView GetWpfTextView(ref IVsTextManager txtManager)
             {
+                IVsTextView currentView;
+                txtManager.GetActiveView(1, null, out currentView);
+
                 IWpfTextView view = null;
-                IVsUserData userData = vTextView as IVsUserData;
+                IVsUserData userData = currentView as IVsUserData;
 
                 if (null != userData)
                 {
@@ -111,12 +113,12 @@ namespace FastClassesVSIX
                     object holder;
                     Guid guidViewHost = DefGuidList.guidIWpfTextViewHost;
                     userData.GetData(ref guidViewHost, out holder);
-                    viewHost = (IWpfTextViewHost)holder;
+                    viewHost = (IWpfTextViewHost) holder;
                     view = viewHost.TextView;
                 }
                 return view;
             }
-            
+
             /// <summary>
             /// Templates for class declaration
             /// </summary>
@@ -206,10 +208,10 @@ namespace FastClassesVSIX
         /// reset the editor text snapshot length so we properly find the new 'end' of the text.
         /// </summary>
         /// <param name="className"></param>
-        public static void initializeMembers(string className, IVsTextView currentView)
+        public static void initializeMembers(string className, ref IVsTextManager txtManager)
         {
             ClassTemplateWriterMembers.ClassName = className;
-            ClassTemplateWriterMembers.View = ClassTemplateWriterMembers.GetWpfTextView(currentView);
+            ClassTemplateWriterMembers.View = ClassTemplateWriterMembers.GetWpfTextView(ref txtManager);
             ClassTemplateWriterMembers.Edit = ClassTemplateWriterMembers.View.TextBuffer.CreateEdit();
             ClassTemplateWriterMembers.ResetSnapshotLength();
         }

@@ -189,7 +189,7 @@ namespace FastClassesVSIX
         /// </summary>
         /// <param name="dte"></param>
         /// <returns></returns>
-        public int getDocumentTypeOneIsDefTwoIsDecl(DTE2 dte)
+        private int getDocumentTypeOneIsDefTwoIsDecl(ref DTE2 dte)
         {
             if (dte.ActiveDocument.FullName.Contains(".cpp"))
                 return 1;
@@ -201,7 +201,24 @@ namespace FastClassesVSIX
             return 0;
         }
 
+        /// <summary>
+        /// This method generates a modal dialog box so the user can insert the className he desires.
+        /// The method will simply return the user input className
+        /// </summary>
+        /// <returns></returns>
+        private string getClassName()
+        {
+            var fastClassesMMBControlInstance = new FastClassesModalMessageDialogBoxControl();
+            fastClassesMMBControlInstance.ShowModal();  //Opens the class name input window in the file "ClassPreferenceOptions.xaml"
 
+            if (!fastClassesMMBControlInstance.Result)
+            {
+                MessageBox.Show("error: could not accept class name");
+                return null; //Check if the class name was successfully input
+            }
+
+            return fastClassesMMBControlInstance.InputClassName;
+        }
        
 
         /// This function is the callback used to execute the command when the menu item is clicked.
@@ -216,26 +233,15 @@ namespace FastClassesVSIX
             var txtManager = (IVsTextManager) ServiceProvider.GetService(typeof(SVsTextManager));
             var item = (MenuCommand) sender;
 
-            IVsTextView currentView;
-            txtManager.GetActiveView(1, null, out currentView);
-
-
-            var documentType = getDocumentTypeOneIsDefTwoIsDecl(dte); //get the document type (source file or header file)
-
-            if (documentType == 0) //exception, invalid file type
+            var documentType = getDocumentTypeOneIsDefTwoIsDecl(ref dte); //get the document type (source file or header file)
+            if (documentType == 0)
                 return;
 
+            var className = getClassName();
+            if (className == null)
+                return;
 
-            var fastClassesMMBControlInstance = new FastClassesModalMessageDialogBoxControl();
-            fastClassesMMBControlInstance.ShowModal();  //Opens the class name input window in the file "ClassPreferenceOptions.xaml"
-
-            if (!fastClassesMMBControlInstance.Result)
-            {
-                MessageBox.Show("error: could not accept class name");
-                return; //Check if the class name was successfully input
-            }
-
-            ClassTemplateWriter.initializeMembers(fastClassesMMBControlInstance.InputClassName, currentView); // initialize the class Templates stuff
+            ClassTemplateWriter.initializeMembers(className, ref txtManager); // initialize the class Templates stuff
 
             if (documentType == 1) //if the current active ducument is a Source file
                 switch (item.CommandID.ID)

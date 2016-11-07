@@ -107,11 +107,6 @@ namespace FastClassesVSIX
         private static string ClassName;
         private static ClassTemplateWriter instance = null;
 
-        private static ClassTemplateWriter getInstance()
-        {
-            return instance ?? (instance = new ClassTemplateWriter());
-        }
-
         private ClassTemplateWriter()
         {
         }
@@ -260,6 +255,19 @@ namespace FastClassesVSIX
                 Edit.Insert(Codelength, DefinitionTemplate.ClassWithMove());
                 Edit.Apply();
             }
+        }
+    }
+
+    public class MemberVarTemplateWriter : BaseTemplateWriter
+    {
+        private static MemberVarTemplateWriter instance = null;
+
+        public void initializeMembers(IVsTextManager txtManager)
+        {
+            if(instance == null)
+                instance = new MemberVarTemplateWriter();
+            View = GetWpfTextView(ref txtManager);
+            Edit = View.TextBuffer.CreateEdit();
         }
     }
 }

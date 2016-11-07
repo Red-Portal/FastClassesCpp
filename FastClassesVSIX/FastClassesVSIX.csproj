@@ -218,7 +218,10 @@
     </Content>
     <Content Include="Resources\FastClassesCpp.png" />
     <Content Include="Resources\FastClassesCppPackage.ico" />
-    <Content Include="Resources\icon.ico" />
+    <Content Include="Resources\icon.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Page Include="FastClassesModalMessageDialogBoxControl.xaml">

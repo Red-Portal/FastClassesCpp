@@ -211,10 +211,7 @@ namespace FastClassesVSIX
             fastClassesMMBControlInstance.ShowModal();  //Opens the class name input window in the file "ClassPreferenceOptions.xaml"
 
             if (!fastClassesMMBControlInstance.Result)
-            {
-                MessageBox.Show("error: could not accept class name");
                 return null; //Check if the class name was successfully input
-            }
 
             return fastClassesMMBControlInstance.InputClassName;
         }

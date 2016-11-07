@@ -10,38 +10,23 @@ When you press the command a dialog box where you can insert the class name will
 The plugin will detact wether the document your currently on is a source file(.cpp) or a header file(.h, .hpp)
 and insert snippets of class declaration and definition accordingly.
 
-+ Class
++ ClassBasic
 Comes only with a default constructor and a default destructor.
-
-class ClassName
-{
+   
     ClassName();
     ~ClassName();
-};
 
 + Class w/ Copy
 Comes with the above, a const reference copy constructor, and a const reference copy assign operator.
 
-class ClassName
-{
     ClassName();
     ClassName(const ClassName&amp; other);
     ClassName&amp; operator=(const ClassName&amp; other);
     ~ClassName();
-};
 
 + Class w/ Move
 Comes with the above, a move copy constructor, and a move copy assign operator.
-
-class ClassName
-{
-    ClassName();
-    ClassName(const ClassName&amp; other);
-    ClassName(ClassName&amp;&amp; other);
-    ClassName&amp; operator=(const ClassName&amp; other);
-    ClassName&amp; operator=(ClassName&amp;&amp; other);
-    ~ClassName();
-};</Description>
+</Description>
     <Icon>icon.ico</Icon>
     <Tags>C++, class, refactoring, command, snippets,</Tags>
   </Metadata>

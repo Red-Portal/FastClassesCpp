@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using Microsoft.VisualStudio.PlatformUI;
 using System.Windows.Controls;
@@ -22,6 +23,9 @@ namespace FastClassesVSIX
             this.HasMinimizeButton = false;
             this.HasMaximizeButton = false;
             Result = false;
+
+            ClassNameInputTextBox.Focusable = true;
+            ClassNameInputTextBox.Focus();
         }
 
         private bool CheckClassNameAvailability(string inputClassName)
@@ -30,6 +34,10 @@ namespace FastClassesVSIX
             {
                 ErrorTextBlock.Text = "Class name cannot contain spaces. Use under scores instead";
                 return false;
+            }
+            if (inputClassName.Length == 0)
+            {
+                ErrorTextBlock.Text = "Class name cannot be empty. Please enter a class name";
             }
             return true;
         }

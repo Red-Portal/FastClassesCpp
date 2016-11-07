@@ -3,3 +3,4 @@ C:\Users\RedPortal\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Ray K
 C:\Users\RedPortal\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Ray Kim\Visual Studio Fast Classes C++\1.0\\FastClassesVSIX.pkgdef
 C:\Users\RedPortal\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Ray Kim\Visual Studio Fast Classes C++\1.0\\extension.vsixmanifest
 C:\Users\RedPortal\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Ray Kim\Visual Studio Fast Classes C++\1.0\\icon.ico
+C:\Users\RedPortal\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Ray Kim\Visual Studio Fast Classes C++\1.0\Resources\\icon.bmp

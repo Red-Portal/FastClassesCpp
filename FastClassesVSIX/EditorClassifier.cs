@@ -62,7 +62,8 @@ namespace FastClassesVSIX
         {
             var result = new List<ClassificationSpan>()
             {
-                new ClassificationSpan(new SnapshotSpan(span.Snapshot, new Span(span.Start, span.Length)), this._classificationType)
+                new ClassificationSpan(new SnapshotSpan(span.Snapshot, new Span(span.Start, span.Length)),
+                    this._classificationType)
             };
 
             return result;
@@ -71,134 +72,137 @@ namespace FastClassesVSIX
         #endregion
     }
 
+    public class BaseTemplateWriter
+    {
+        protected static IWpfTextView View;
+        protected static ITextEdit Edit;
+        protected static IWpfTextView GetWpfTextView(ref IVsTextManager txtManager)
+        {
+            IVsTextView currentView;
+            txtManager.GetActiveView(1, null, out currentView);
+
+            IWpfTextView view = null;
+            IVsUserData userData = currentView as IVsUserData;
+
+            if (null != userData)
+            {
+                IWpfTextViewHost viewHost;
+                object holder;
+                Guid guidViewHost = DefGuidList.guidIWpfTextViewHost;
+                userData.GetData(ref guidViewHost, out holder);
+                viewHost = (IWpfTextViewHost) holder;
+                view = viewHost.TextView;
+            }
+            return view;
+        }
+    }
+
     /// <summary>
-    /// This class does everything that interacts with the VS editor.
+    /// This singleton does everything that interacts with the VS editor.
     /// It inserts the class template code into the editor.
     /// </summary>
-    static class ClassTemplateWriter //singleton for writing the class Templates into the editor
+    public class ClassTemplateWriter : BaseTemplateWriter
     {
-        /// <summary>
-        /// The abstract singleton private members. and set methods, templates
-        /// </summary>
-        private static class ClassTemplateWriterMembers 
+        private static int Codelength;
+        private static string ClassName;
+        private static ClassTemplateWriter instance = null;
+
+        private static ClassTemplateWriter getInstance()
         {
-            public static void ResetSnapshotLength()
+            return instance ?? (instance = new ClassTemplateWriter());
+        }
+
+        private ClassTemplateWriter()
+        {
+        }
+
+        private static void ResetSnapshotLength()
+        {
+            Codelength = View.TextBuffer.CurrentSnapshot.Length;
+            //length of the current text on the editor. This is required for writing class templates in the bottom of the editor
+        }
+
+        /// <summary>
+        /// Templates for class declaration
+        /// </summary>
+        private static class DeclarationTemplate
+        {
+            public static string ClassBasic()
             {
-                Codelength = View.TextBuffer.CurrentSnapshot.Length; //length of the current text on the editor. This is required for writing class templates in the bottom of the editor
+                return '\n' +
+                       "class " + ClassName + '\n' +
+                       "{\n" +
+                       "private:\n" +
+                       "public:\n" +
+                       ClassName + "();\n" +
+                       '~' + ClassName + "();\n" +
+                       "};";
             }
 
-            public static IWpfTextView View;
-            public static ITextEdit Edit;
-            public static int Codelength;
-            public static string ClassName;
-
-                /// <summary>
-                /// This method receives the current view and converts it to an IWpfTextView.
-                /// </summary>
-                /// <param name="txtManager"></param>
-                /// <returns></returns>
-            public static IWpfTextView GetWpfTextView(ref IVsTextManager txtManager)
+            public static string ClassWithCopy()
             {
-                IVsTextView currentView;
-                txtManager.GetActiveView(1, null, out currentView);
-
-                IWpfTextView view = null;
-                IVsUserData userData = currentView as IVsUserData;
-
-                if (null != userData)
-                {
-                    IWpfTextViewHost viewHost;
-                    object holder;
-                    Guid guidViewHost = DefGuidList.guidIWpfTextViewHost;
-                    userData.GetData(ref guidViewHost, out holder);
-                    viewHost = (IWpfTextViewHost) holder;
-                    view = viewHost.TextView;
-                }
-                return view;
+                return '\n' +
+                       "class " + ClassName + '\n' +
+                       "{\n" +
+                       "private:\n" +
+                       "public:\n" +
+                       ClassName + "();\n" +
+                       ClassName + "(const " + ClassName + "& other);\n" +
+                       ClassName + "& operator=(const " + ClassName + "& other);\n" +
+                       '~' + ClassName + "();\n" +
+                       "};";
             }
 
-            /// <summary>
-            /// Templates for class declaration
-            /// </summary>
-            public static class ClassDeclarationTemplates
+            public static string ClassWithMove()
             {
-                public static string classBasic()
-                {
-                    return '\n' +
-                           "class " + ClassName + '\n' +
-                           "{\n" +
-                           "private:\n" +
-                           "public:\n" +
-                           ClassName + "();\n" +
-                           '~' + ClassName + "();\n" +
-                           "};";
-                }
-
-                public static string classWithCopy()
-                {
-                    return '\n' +
-                           "class " + ClassName + '\n' +
-                           "{\n" +
-                           "private:\n" +
-                           "public:\n" +
-                           ClassName + "();\n" +
-                           ClassName + "(const " + ClassName + "& other);\n" +
-                           ClassName + "& operator=(const " + ClassName + "& other);\n" +
-                           '~' + ClassName + "();\n" +
-                           "};";
-                }
-
-                public static string classWithMove()
-                {
-                    return '\n' +
-                           "class " + ClassName + '\n' +
-                           "{\n" +
-                           "private:\n" +
-                           "public:\n" +
-                           ClassName + "();\n" +
-                           ClassName + "(const " + ClassName + "& other);\n" +
-                           ClassName + "(" + ClassName + "&& other);\n" +
-                           ClassName + "& operator=(const " + ClassName + "& other);\n" +
-                           ClassName + "& operator=(" + ClassName + "&& other);\n" +
-                           '~' + ClassName + "();\n" +
-                           "};";
-                }
-            }
-            
-            /// <summary>
-            /// Templates for class definition
-            /// </summary>
-            public static class ClassDefinitionTemplates
-            {
-                public static string classBasic()
-                {
-                    return '\n' +
-                           ClassName + "::" + ClassName + "() {}\n" +
-                           ClassName + "::~" + ClassName + "() {}\n";
-                }
-
-                public static string classWithCopy()
-                {
-                    return '\n' +
-                            ClassName + "::" + ClassName + "() {}\n" +
-                            ClassName + "::" + ClassName + "(const " + ClassName +  "& other) {}\n" +
-                            ClassName + "& "+ ClassName + "::" + "operator=(const " + ClassName +   "& other) {}\n" +
-                            ClassName + "::~" + ClassName + "() {}\n";
-                }
-
-                public static string classWithMove()
-                {
-                    return '\n' +
-                           ClassName + "::" + ClassName + "() {}\n" +
-                           ClassName + "::" + ClassName + "(const " + ClassName + "& other) {}\n" +
-                           ClassName + "::" + ClassName + "(" + ClassName + "&& other) {}\n" +
-                           ClassName + "& " + ClassName + "::" + "operator=(const " + ClassName + "& other) {}\n" +
-                           ClassName + "& " + ClassName + "::" + "operator=(" + ClassName + "&& other) {}\n" +
-                           ClassName + "::~" + ClassName + "() {}\n";
-                }
+                return '\n' +
+                       "class " + ClassName + '\n' +
+                       "{\n" +
+                       "private:\n" +
+                       "public:\n" +
+                       ClassName + "();\n" +
+                       ClassName + "(const " + ClassName + "& other);\n" +
+                       ClassName + "(" + ClassName + "&& other);\n" +
+                       ClassName + "& operator=(const " + ClassName + "& other);\n" +
+                       ClassName + "& operator=(" + ClassName + "&& other);\n" +
+                       '~' + ClassName + "();\n" +
+                       "};";
             }
         }
-        
+
+        /// <summary>
+        /// Templates for class definition
+        /// </summary>
+        private static class DefinitionTemplate
+        {
+            public static string ClassBasic()
+            {
+                return '\n' +
+                       ClassName + "::" + ClassName + "() {}\n" +
+                       ClassName + "::~" + ClassName + "() {}\n";
+            }
+
+            public static string ClassWithCopy()
+            {
+                return '\n' +
+                       ClassName + "::" + ClassName + "() {}\n" +
+                       ClassName + "::" + ClassName + "(const " + ClassName + "& other) {}\n" +
+                       ClassName + "& " + ClassName + "::" + "operator=(const " + ClassName + "& other) {}\n" +
+                       ClassName + "::~" + ClassName + "() {}\n";
+            }
+
+            public static string ClassWithMove()
+            {
+                return '\n' +
+                       ClassName + "::" + ClassName + "() {}\n" +
+                       ClassName + "::" + ClassName + "(const " + ClassName + "& other) {}\n" +
+                       ClassName + "::" + ClassName + "(" + ClassName + "&& other) {}\n" +
+                       ClassName + "& " + ClassName + "::" + "operator=(const " + ClassName + "& other) {}\n" +
+                       ClassName + "& " + ClassName + "::" + "operator=(" + ClassName + "&& other) {}\n" +
+                       ClassName + "::~" + ClassName + "() {}\n";
+            }
+        }
+
         /// <summary>
         /// initialize the hidden members of the singleton. This class MUST BE CALLED EVERY TIME
         /// THERE IS A CHANGE IN THE DATA OF THE MODAL DIALOG BOX.
@@ -208,56 +212,97 @@ namespace FastClassesVSIX
         /// <param name="className"></param>
         public static void initializeMembers(string className, ref IVsTextManager txtManager)
         {
-            ClassTemplateWriterMembers.ClassName = className;
-            ClassTemplateWriterMembers.View = ClassTemplateWriterMembers.GetWpfTextView(ref txtManager);
-            ClassTemplateWriterMembers.Edit = ClassTemplateWriterMembers.View.TextBuffer.CreateEdit();
-            ClassTemplateWriterMembers.ResetSnapshotLength();
+            if(instance == null)
+                instance = new ClassTemplateWriter();
+            ClassName = className;
+            View = GetWpfTextView(ref txtManager);
+            Edit = View.TextBuffer.CreateEdit();
+            ResetSnapshotLength();
+        }
+
+        /// <summary>
+        /// static class containing the implementation for the public methods
+        /// The implementation is disconnected like this to relieve the user from using 'getInstance'
+        /// </summary>
+        private static class Implementation
+        {
+            public static class Declaration
+            {
+                public static void InsertClassBasic()
+                {
+                    Edit.Insert(Codelength - 1, DeclarationTemplate.ClassBasic());
+                    Edit.Apply();
+                }
+
+                public static void InsertClassWithCopy()
+                {
+                    Edit.Insert(Codelength - 1, DeclarationTemplate.ClassWithCopy());
+                    Edit.Apply();
+                }
+
+                public static void InsertClassWithMove()
+                {
+                    Edit.Insert(Codelength - 1, DeclarationTemplate.ClassWithMove());
+                    Edit.Apply();
+                    //-1 is because of #endif. this might look like shit and it is shit. I'll change it later
+                }
+            }
+
+            public static class Definition
+            {
+                public static void InsertClassBasic()
+                {
+                    Edit.Insert(Codelength, DefinitionTemplate.ClassBasic());
+                    Edit.Apply();
+                }
+
+                public static void InsertClassWithCopy()
+                {
+                    Edit.Insert(Codelength, DefinitionTemplate.ClassWithCopy());
+                    Edit.Apply();
+                }
+
+                public static void InsertClassWithMove()
+                {
+                    Edit.Insert(Codelength, DefinitionTemplate.ClassWithMove());
+                    Edit.Apply();
+                }
+            }
         }
 
         public static class ClassDeclarationTemplates
         {
             public static void InsertClassBasic()
             {
-                ClassTemplateWriterMembers.Edit.Insert(ClassTemplateWriterMembers.Codelength - 1,
-                    ClassTemplateWriterMembers.ClassDeclarationTemplates.classBasic());
-                ClassTemplateWriterMembers.Edit.Apply();
+               Implementation.Declaration.InsertClassBasic();
             }
 
             public static void InsertClassWithCopy()
             {
-                ClassTemplateWriterMembers.Edit.Insert(ClassTemplateWriterMembers.Codelength - 1,
-                    ClassTemplateWriterMembers.ClassDeclarationTemplates.classWithCopy());
-                ClassTemplateWriterMembers.Edit.Apply();
+                Implementation.Declaration.InsertClassWithCopy();
             }
 
             public static void InsertClassWithMove()
             {
-                ClassTemplateWriterMembers.Edit.Insert(ClassTemplateWriterMembers.Codelength - 1, //-1 is because of #endif. this might look like shit and it is shit. I'll change it later
-                    ClassTemplateWriterMembers.ClassDeclarationTemplates.classWithMove());
-                ClassTemplateWriterMembers.Edit.Apply();
+                Implementation.Declaration.InsertClassWithMove();
             }
         }
+
         public static class ClassDefinitionTemplates
         {
             public static void InsertClassBasic()
             {
-                ClassTemplateWriterMembers.Edit.Insert(ClassTemplateWriterMembers.Codelength,
-                    ClassTemplateWriterMembers.ClassDefinitionTemplates.classBasic());
-                ClassTemplateWriterMembers.Edit.Apply();
+               Implementation.Definition.InsertClassBasic();
             }
 
             public static void InsertClassWithCopy()
             {
-                ClassTemplateWriterMembers.Edit.Insert(ClassTemplateWriterMembers.Codelength,
-                    ClassTemplateWriterMembers.ClassDefinitionTemplates.classWithCopy());
-                ClassTemplateWriterMembers.Edit.Apply();
+                Implementation.Definition.InsertClassWithCopy();
             }
 
             public static void InsertClassWithMove()
             {
-                ClassTemplateWriterMembers.Edit.Insert(ClassTemplateWriterMembers.Codelength,
-                    ClassTemplateWriterMembers.ClassDefinitionTemplates.classWithMove());
-                ClassTemplateWriterMembers.Edit.Apply();
+                Implementation.Definition.InsertClassWithMove();
             }
         }
     }

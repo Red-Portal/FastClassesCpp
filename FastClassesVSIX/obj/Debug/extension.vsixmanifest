@@ -26,7 +26,7 @@ Comes with the above, a const reference copy constructor, and a const reference 
 + Class w/ Move
 Comes with the above, a move copy constructor, and a move copy assign operator.
 </Description>
-    <Icon>icon.ico</Icon>
+    <Icon>Resources\icon.bmp</Icon>
     <Tags>C++, class, refactoring, command, snippets,</Tags>
   </Metadata>
   <Installation>

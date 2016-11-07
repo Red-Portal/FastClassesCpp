@@ -78,3 +78,4 @@ d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Deb
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\Microsoft.VisualStudio.Editor.dll
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\Microsoft.VisualStudio.Editor.xml
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\icon.ico
+d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\Resources\icon.bmp

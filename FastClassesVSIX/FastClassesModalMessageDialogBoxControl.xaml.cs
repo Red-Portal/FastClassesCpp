@@ -1,10 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Windows;
-using Microsoft.VisualStudio.PlatformUI;
-using System.Windows.Controls;
+﻿using Microsoft.VisualStudio.PlatformUI;
 using System.Windows.Input;
 
 namespace FastClassesVSIX

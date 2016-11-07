@@ -37,6 +37,6 @@ If this doesn't work or works in your current version please let me now!
 
 ## Contribution
 I'm currently a Computer Engineering student actively learning. If you have any feedback about the code,
-Simply add an issue on git.
+Refactor suggestion, or a smack in the face simply add an issue on git or send me an E-mail
 Bug fixes (though I suspect there is any) are strongly welcome.
 Any personal questions, sent to msca8h@naver.com

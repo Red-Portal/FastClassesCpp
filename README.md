@@ -18,7 +18,7 @@ The available 3 types of commands each generate,
 version 1.0
 
 This version currently only officially supports Visual Studio 2015(14.0),
-I'm not shure if it will work in other versions
+I'm not sure if it will work in other versions
 If this doesn't work or works in your current version please let me now!
 
 ## How to use
@@ -33,7 +33,7 @@ If this doesn't work or works in your current version please let me now!
 1. Download or clone the repository.
 2. Build the project
 3. in FastClassesVSIX\FastClassesVSIX\bin\debug you will find FastClassesVSIX.vsix
-4. run the file and the the extension will be installed to your Visual Studio
+4. run the file and the extension will be installed to your Visual Studio
 
 ## Contribution
 I'm currently a Computer Engineering student actively learning. If you have any feedback about the code,

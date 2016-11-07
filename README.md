@@ -19,6 +19,7 @@ version 1.0
 
 This version currently only officially supports Visual Studio 2015(14.0),
 I'm not shure if it will work in other versions
+If this doesn't work or works in your current version please let me now!
 
 ## How to use
 1. Right Click and open the contextual menu in the document you want to add the snippet.

@@ -220,71 +220,24 @@ namespace FastClassesVSIX
             ResetSnapshotLength();
         }
 
-        /// <summary>
-        /// static class containing the implementation for the public methods
-        /// The implementation is disconnected like this to relieve the user from using 'getInstance'
-        /// </summary>
-        private static class Implementation
-        {
-            public static class Declaration
-            {
-                public static void InsertClassBasic()
-                {
-                    Edit.Insert(Codelength - 1, DeclarationTemplate.ClassBasic());
-                    Edit.Apply();
-                }
-
-                public static void InsertClassWithCopy()
-                {
-                    Edit.Insert(Codelength - 1, DeclarationTemplate.ClassWithCopy());
-                    Edit.Apply();
-                }
-
-                public static void InsertClassWithMove()
-                {
-                    Edit.Insert(Codelength - 1, DeclarationTemplate.ClassWithMove());
-                    Edit.Apply();
-                    //-1 is because of #endif. this might look like shit and it is shit. I'll change it later
-                }
-            }
-
-            public static class Definition
-            {
-                public static void InsertClassBasic()
-                {
-                    Edit.Insert(Codelength, DefinitionTemplate.ClassBasic());
-                    Edit.Apply();
-                }
-
-                public static void InsertClassWithCopy()
-                {
-                    Edit.Insert(Codelength, DefinitionTemplate.ClassWithCopy());
-                    Edit.Apply();
-                }
-
-                public static void InsertClassWithMove()
-                {
-                    Edit.Insert(Codelength, DefinitionTemplate.ClassWithMove());
-                    Edit.Apply();
-                }
-            }
-        }
-
         public static class ClassDeclarationTemplates
         {
             public static void InsertClassBasic()
             {
-               Implementation.Declaration.InsertClassBasic();
+                Edit.Insert(Codelength - 1, DeclarationTemplate.ClassBasic());
+                Edit.Apply();
             }
 
             public static void InsertClassWithCopy()
             {
-                Implementation.Declaration.InsertClassWithCopy();
+                Edit.Insert(Codelength - 1, DeclarationTemplate.ClassWithCopy());
+                Edit.Apply();
             }
 
             public static void InsertClassWithMove()
             {
-                Implementation.Declaration.InsertClassWithMove();
+                Edit.Insert(Codelength - 1, DeclarationTemplate.ClassWithMove());
+                Edit.Apply();
             }
         }
 
@@ -292,17 +245,20 @@ namespace FastClassesVSIX
         {
             public static void InsertClassBasic()
             {
-               Implementation.Definition.InsertClassBasic();
+                Edit.Insert(Codelength, DefinitionTemplate.ClassBasic());
+                Edit.Apply();
             }
 
             public static void InsertClassWithCopy()
             {
-                Implementation.Definition.InsertClassWithCopy();
+                Edit.Insert(Codelength, DefinitionTemplate.ClassWithCopy());
+                Edit.Apply();
             }
 
             public static void InsertClassWithMove()
             {
-                Implementation.Definition.InsertClassWithMove();
+                Edit.Insert(Codelength, DefinitionTemplate.ClassWithMove());
+                Edit.Apply();
             }
         }
     }

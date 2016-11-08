@@ -51,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CmdGuid.cs" />
     <Compile Include="FastClassesModalMessageDialogBoxControl.xaml.cs">
       <DependentUpon>FastClassesModalMessageDialogBoxControl.xaml</DependentUpon>
     </Compile>

@@ -24,9 +24,7 @@ namespace FastClassesVSIX
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int commandMakeClassBasic = 0x0100;
-        public const int commandMakeClassWithCopy = 0x0101;
-        public const int commandMakeClassWithMove = 0x0102;
+        
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -56,15 +54,15 @@ namespace FastClassesVSIX
                 this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
             {
-                var makeClassOption1_cmdID = new CommandID(CommandSet, commandMakeClassBasic);
+                var makeClassOption1_cmdID = new CommandID(CommandSet, CmdGuid.CommandMakeClassBasic);
                 var makeClassOption1_menuItem = new MenuCommand(this.MenuItemCallback, makeClassOption1_cmdID);
                 commandService.AddCommand(makeClassOption1_menuItem);
 
-                var makeClassOption2_cmdID = new CommandID(CommandSet, commandMakeClassWithCopy);
+                var makeClassOption2_cmdID = new CommandID(CommandSet, CmdGuid.CommandMakeClassWithCopy);
                 var makeClassOption2_menuItem = new MenuCommand(this.MenuItemCallback, makeClassOption2_cmdID);
                 commandService.AddCommand(makeClassOption2_menuItem);
 
-                var makeClassOption3_cmdID = new CommandID(CommandSet, commandMakeClassWithMove);
+                var makeClassOption3_cmdID = new CommandID(CommandSet, CmdGuid.CommandMakeClassWithMove);
                 var makeClassOption3_menuItem = new MenuCommand(this.MenuItemCallback, makeClassOption3_cmdID);
                 commandService.AddCommand(makeClassOption3_menuItem);
             }
@@ -239,39 +237,7 @@ namespace FastClassesVSIX
 
             ClassTemplateWriter.initializeMembers(className, ref txtManager); // initialize the class Templates stuff
 
-            if (documentType == 1) //if the current active ducument is a Source file
-                switch (item.CommandID.ID)
-                {
-                    default:
-                        MessageBox.Show("error: menu command does not match any command guid");
-                        break;
-                    case commandMakeClassBasic:
-                        ClassTemplateWriter.ClassDefinitionTemplates.InsertClassBasic();
-                        break;
-                    case commandMakeClassWithCopy:
-                        ClassTemplateWriter.ClassDefinitionTemplates.InsertClassWithCopy();
-                        break;
-                    case commandMakeClassWithMove:
-                        ClassTemplateWriter.ClassDefinitionTemplates.InsertClassWithMove();
-                        break;
-                }
-
-            if (documentType == 2) //if the current active document is a header file
-                switch (item.CommandID.ID)
-                {
-                    default:
-                        MessageBox.Show("error: menu command does not match any command guid");
-                        break;
-                    case commandMakeClassBasic:
-                        ClassTemplateWriter.ClassDeclarationTemplates.InsertClassBasic();
-                        break;
-                    case commandMakeClassWithCopy:
-                        ClassTemplateWriter.ClassDeclarationTemplates.InsertClassWithCopy();
-                        break;
-                    case commandMakeClassWithMove:
-                        ClassTemplateWriter.ClassDeclarationTemplates.InsertClassWithMove();
-                        break;
-                }
+            ClassTemplateWriter.CommandHandler(item.CommandID.ID, documentType);
         }
     }
 }

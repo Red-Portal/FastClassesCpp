@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
@@ -103,8 +104,8 @@ namespace FastClassesVSIX
     /// </summary>
     public class ClassTemplateWriter : BaseTemplateWriter
     {
-        private static int Codelength;
-        private static string ClassName;
+        private static int m_codelength;
+        private static string m_className;
         private static ClassTemplateWriter instance = null;
 
         private ClassTemplateWriter()
@@ -113,7 +114,7 @@ namespace FastClassesVSIX
 
         private static void ResetSnapshotLength()
         {
-            Codelength = View.TextBuffer.CurrentSnapshot.Length;
+            m_codelength = View.TextBuffer.CurrentSnapshot.Length;
             //length of the current text on the editor. This is required for writing class templates in the bottom of the editor
         }
 
@@ -125,42 +126,42 @@ namespace FastClassesVSIX
             public static string ClassBasic()
             {
                 return '\n' +
-                       "class " + ClassName + '\n' +
+                       "class " + m_className + '\n' +
                        "{\n" +
                        "private:\n" +
                        "public:\n" +
-                       ClassName + "();\n" +
-                       '~' + ClassName + "();\n" +
+                       m_className + "();\n" +
+                       '~' + m_className + "();\n" +
                        "};";
             }
 
             public static string ClassWithCopy()
             {
                 return '\n' +
-                       "class " + ClassName + '\n' +
+                       "class " + m_className + '\n' +
                        "{\n" +
                        "private:\n" +
                        "public:\n" +
-                       ClassName + "();\n" +
-                       ClassName + "(const " + ClassName + "& other);\n" +
-                       ClassName + "& operator=(const " + ClassName + "& other);\n" +
-                       '~' + ClassName + "();\n" +
+                       m_className + "();\n" +
+                       m_className + "(const " + m_className + "& other);\n" +
+                       m_className + "& operator=(const " + m_className + "& other);\n" +
+                       '~' + m_className + "();\n" +
                        "};";
             }
 
             public static string ClassWithMove()
             {
                 return '\n' +
-                       "class " + ClassName + '\n' +
+                       "class " + m_className + '\n' +
                        "{\n" +
                        "private:\n" +
                        "public:\n" +
-                       ClassName + "();\n" +
-                       ClassName + "(const " + ClassName + "& other);\n" +
-                       ClassName + "(" + ClassName + "&& other);\n" +
-                       ClassName + "& operator=(const " + ClassName + "& other);\n" +
-                       ClassName + "& operator=(" + ClassName + "&& other);\n" +
-                       '~' + ClassName + "();\n" +
+                       m_className + "();\n" +
+                       m_className + "(const " + m_className + "& other);\n" +
+                       m_className + "(" + m_className + "&& other);\n" +
+                       m_className + "& operator=(const " + m_className + "& other);\n" +
+                       m_className + "& operator=(" + m_className + "&& other);\n" +
+                       '~' + m_className + "();\n" +
                        "};";
             }
         }
@@ -173,28 +174,28 @@ namespace FastClassesVSIX
             public static string ClassBasic()
             {
                 return '\n' +
-                       ClassName + "::" + ClassName + "() {}\n" +
-                       ClassName + "::~" + ClassName + "() {}\n";
+                       m_className + "::" + m_className + "() {}\n" +
+                       m_className + "::~" + m_className + "() {}\n";
             }
 
             public static string ClassWithCopy()
             {
                 return '\n' +
-                       ClassName + "::" + ClassName + "() {}\n" +
-                       ClassName + "::" + ClassName + "(const " + ClassName + "& other) {}\n" +
-                       ClassName + "& " + ClassName + "::" + "operator=(const " + ClassName + "& other) {}\n" +
-                       ClassName + "::~" + ClassName + "() {}\n";
+                       m_className + "::" + m_className + "() {}\n" +
+                       m_className + "::" + m_className + "(const " + m_className + "& other) {}\n" +
+                       m_className + "& " + m_className + "::" + "operator=(const " + m_className + "& other) {}\n" +
+                       m_className + "::~" + m_className + "() {}\n";
             }
 
             public static string ClassWithMove()
             {
                 return '\n' +
-                       ClassName + "::" + ClassName + "() {}\n" +
-                       ClassName + "::" + ClassName + "(const " + ClassName + "& other) {}\n" +
-                       ClassName + "::" + ClassName + "(" + ClassName + "&& other) {}\n" +
-                       ClassName + "& " + ClassName + "::" + "operator=(const " + ClassName + "& other) {}\n" +
-                       ClassName + "& " + ClassName + "::" + "operator=(" + ClassName + "&& other) {}\n" +
-                       ClassName + "::~" + ClassName + "() {}\n";
+                       m_className + "::" + m_className + "() {}\n" +
+                       m_className + "::" + m_className + "(const " + m_className + "& other) {}\n" +
+                       m_className + "::" + m_className + "(" + m_className + "&& other) {}\n" +
+                       m_className + "& " + m_className + "::" + "operator=(const " + m_className + "& other) {}\n" +
+                       m_className + "& " + m_className + "::" + "operator=(" + m_className + "&& other) {}\n" +
+                       m_className + "::~" + m_className + "() {}\n";
             }
         }
 
@@ -209,52 +210,53 @@ namespace FastClassesVSIX
         {
             if(instance == null)
                 instance = new ClassTemplateWriter();
-            ClassName = className;
+            m_className = className;
             View = GetWpfTextView(ref txtManager);
             Edit = View.TextBuffer.CreateEdit();
             ResetSnapshotLength();
         }
 
-        public static class ClassDeclarationTemplates
+        /// <summary>
+        /// Receive the ID of the called command and documen type, handle the command event accordingly 
+        /// </summary>
+        /// <param name="cmdGuid"></param>
+        /// <param name="documentType"></param>
+        public static void CommandHandler(int cmdGuid, int documentType)
         {
-            public static void InsertClassBasic()
-            {
-                Edit.Insert(Codelength - 1, DeclarationTemplate.ClassBasic());
-                Edit.Apply();
-            }
+            if (documentType == 1) //if the current active ducument is a Source file
+                switch(cmdGuid) 
+                {
+                    default:
+                        MessageBox.Show("error: menu command does not match any command guid");
+                        break;
+                    case CmdGuid.CommandMakeClassBasic:
+                        Edit.Insert(m_codelength, DefinitionTemplate.ClassBasic());
+                        break;
+                    case CmdGuid.CommandMakeClassWithCopy:
+                        Edit.Insert(m_codelength, DefinitionTemplate.ClassWithCopy());
+                        break;
+                    case CmdGuid.CommandMakeClassWithMove:
+                        Edit.Insert(m_codelength, DefinitionTemplate.ClassWithMove());
+                        break;
+                }
 
-            public static void InsertClassWithCopy()
-            {
-                Edit.Insert(Codelength - 1, DeclarationTemplate.ClassWithCopy());
-                Edit.Apply();
-            }
-
-            public static void InsertClassWithMove()
-            {
-                Edit.Insert(Codelength - 1, DeclarationTemplate.ClassWithMove());
-                Edit.Apply();
-            }
-        }
-
-        public static class ClassDefinitionTemplates
-        {
-            public static void InsertClassBasic()
-            {
-                Edit.Insert(Codelength, DefinitionTemplate.ClassBasic());
-                Edit.Apply();
-            }
-
-            public static void InsertClassWithCopy()
-            {
-                Edit.Insert(Codelength, DefinitionTemplate.ClassWithCopy());
-                Edit.Apply();
-            }
-
-            public static void InsertClassWithMove()
-            {
-                Edit.Insert(Codelength, DefinitionTemplate.ClassWithMove());
-                Edit.Apply();
-            }
+            else if (documentType == 2) //if the current active document is a header file
+                switch (cmdGuid)
+                {
+                    default:
+                        MessageBox.Show("error: menu command does not match any command guid");
+                        break;
+                    case CmdGuid.CommandMakeClassBasic:
+                        Edit.Insert(m_codelength, DeclarationTemplate.ClassBasic());
+                        break;
+                    case CmdGuid.CommandMakeClassWithCopy:
+                        Edit.Insert(m_codelength, DeclarationTemplate.ClassWithCopy());
+                        break;
+                    case CmdGuid.CommandMakeClassWithMove:
+                        Edit.Insert(m_codelength, DeclarationTemplate.ClassWithMove());
+                        break;
+                }
+            Edit.Apply();
         }
     }
 
@@ -262,7 +264,7 @@ namespace FastClassesVSIX
     {
         private static MemberVarTemplateWriter instance = null;
 
-        public void initializeMembers(IVsTextManager txtManager)
+        public void initializeMembers(ref IVsTextManager txtManager)
         {
             if(instance == null)
                 instance = new MemberVarTemplateWriter();

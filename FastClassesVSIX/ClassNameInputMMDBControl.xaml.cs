@@ -1,27 +1,28 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
+﻿using System.Windows;
 using System.Windows.Input;
+using Microsoft.VisualStudio.PlatformUI;
 
 namespace FastClassesVSIX
 {
     /// <summary>
-    /// Interaction logic for ClassPreferenceOptions.xaml.
+    ///     Interaction logic for ClassPreferenceOptions.xaml.
     /// </summary>
-    public partial class FastClassesModalMessageDialogBoxControl : DialogWindow
+    public partial class ClassNameInputMMDBControl : DialogWindow
     {
-        
         public string InputClassName;
-        public bool Result;
-        public FastClassesModalMessageDialogBoxControl()
+        public bool Result { get; private set; }
+        public bool CheckBox { get; private set; }
+        public ClassNameInputMMDBControl()
         {
             InitializeComponent();
-            this.HasMinimizeButton = false;
-            this.HasMaximizeButton = false;
-            Result = false;
-
+            HasMinimizeButton = false;
+            HasMaximizeButton = false;
             ClassNameInputTextBox.Focusable = true;
+            Result = false;
+            CheckBox = true;
+
             ClassNameInputTextBox.Focus();
         }
-
         private bool CheckClassNameAvailability(string inputClassName)
         {
             if (inputClassName.Contains(" "))
@@ -32,6 +33,7 @@ namespace FastClassesVSIX
             if (inputClassName.Length == 0)
             {
                 ErrorTextBlock.Text = "Class name cannot be empty. Please enter a class name";
+                return false;
             }
             return true;
         }
@@ -46,13 +48,21 @@ namespace FastClassesVSIX
                     return;
 
                 Result = true;
-                this.Close();
+                Close();
             }
-            if (e.Key == Key.Cancel || e.Key == Key.Escape)
+            if ((e.Key == Key.Cancel) || (e.Key == Key.Escape))
             {
                 Result = false;
-                this.Close();
+                Close();
             }
+        }
+        private void CheckBoxAddMemberVariable_OnChecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox = true;
+        }
+        private void CheckBoxAddMemberVariable_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox = false;
         }
     }
 }

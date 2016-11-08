@@ -1,0 +1,33 @@
+﻿<platformUi:DialogWindow x:Class="FastClassesVSIX.MemberVariableGeneratorMMDBControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
+             mc:Ignorable="d" 
+             WindowStartupLocation="CenterScreen"         
+             Width="368" Height="206.18"
+             Background="DimGray">
+    <StackPanel KeyDown="UIElement_OnKeyDown">
+        <TextBlock  Margin="7,7,0,0" Foreground="WhiteSmoke" FontWeight="DemiBold" FontFamily="Calibri"  Text="Variable Generator"/>
+        <TextBlock  Margin="7,-1,0,7" Text="Press Enter to Generate Member Variables or Press ESC to abort" FontSize="9" FontWeight="DemiBold" Foreground="AliceBlue"/>
+        <CheckBox Name="AddGet" HorizontalAlignment="Left" Margin="10,0,0,0" Checked="AddGet_OnChecked" Unchecked="AddGet_OnUnchecked" IsChecked="false" KeyDown="AddGet_OnKeyDown">
+            <TextBox Text="Add Get Method" Margin="0,2.5,0,0" BorderThickness="0" Background="DimGray" FontSize="8.5" FontWeight="Normal" Foreground="AliceBlue"/>
+        </CheckBox>
+        <CheckBox Name="AddSet" HorizontalAlignment="Left" Margin="10,0,0,0" Checked="AddSet_OnChecked" Unchecked="AddSet_OnUnchecked" IsChecked="false" KeyDown="AddSet_OnKeyDown">
+            <TextBox Text="Add Set Method" Margin="0,2.5,0,0" BorderThickness="0" Background="DimGray" FontSize="8.5" FontWeight="Normal" Foreground="AliceBlue"/>
+        </CheckBox>
+        <CheckBox Name="AddCopySet" HorizontalAlignment="Left" Margin="10,0,0,0" Checked="AddCopySet_OnChecked" Unchecked="AddCopySet_OnUnchecked" IsChecked="False" KeyDown="AddCopySet_OnKeyDown">
+            <TextBox Text="Add Copy Set Method" Margin="0,2.5,0,0" BorderThickness="0" Background="DimGray" FontSize="8.5" FontWeight="Normal" Foreground="AliceBlue"/>
+        </CheckBox>
+        <CheckBox Name="AddMoveSet" HorizontalAlignment="Left" Margin="10,0,0,0" Checked="AddMoveSet_OnChecked" Unchecked="AddMoveSet_OnUnchecked" IsChecked="False" KeyDown="AddMoveSet_OnKeyDown">
+            <TextBox Text="Add Move Set Method" Margin="0,2.5,0,0" BorderThickness="0" Background="DimGray" FontSize="8.5" FontWeight="Normal" Foreground="AliceBlue"/>
+        </CheckBox>
+        <CheckBox Name="AddImplementationInConstructor" HorizontalAlignment="Left" Margin="10,0,0,0" Checked="AddImplementationInConstructor_OnChecked" IsChecked="False" Unchecked="AddImplementationInConstructor_OnUnchecked" KeyDown="AddImplementationInConstructor_OnKeyDown">
+            <TextBox Text="Add Copy operation in Class Constructors and Copy Assign Operators" Margin="0,2.5,0,0" BorderThickness="0" Background="DimGray" FontSize="8.5" FontWeight="Normal" Foreground="AliceBlue"/>
+        </CheckBox>
+        <TextBlock Margin="7,5,0,7" Text="Enter Full Declaration of Member Variable (semicolon at the end)" FontSize="9" FontWeight="DemiBold" Foreground="AliceBlue"/>
+        <TextBox Name="TextBoxMemberVariableDeclarationInput"  Margin="7,-2,7,0" KeyDown="MemberVariableDeclarationInput_OnKeyDown"/>
+        <TextBlock x:Name="ErrorTextBlock" Margin="2" FontSize ="12"  TextAlignment="Center" Foreground="DarkRed" FontWeight="Normal" Visibility="Hidden" FontFamily="Calibri"/>
+    </StackPanel>
+</platformUi:DialogWindow>

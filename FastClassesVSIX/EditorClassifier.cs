@@ -108,10 +108,6 @@ namespace FastClassesVSIX
         private static string m_className;
         private static ClassTemplateWriter instance = null;
 
-        private ClassTemplateWriter()
-        {
-        }
-
         private static void ResetSnapshotLength()
         {
             m_codelength = View.TextBuffer.CurrentSnapshot.Length;

@@ -52,14 +52,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CmdGuid.cs" />
-    <Compile Include="FastClassesModalMessageDialogBoxControl.xaml.cs">
-      <DependentUpon>FastClassesModalMessageDialogBoxControl.xaml</DependentUpon>
+    <Compile Include="ClassNameInputMMDBControl.xaml.cs">
+      <DependentUpon>ClassNameInputMMDBControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditorClassifier.cs" />
     <Compile Include="EditorClassifierClassificationDefinition.cs" />
     <Compile Include="EditorClassifierProvider.cs" />
     <Compile Include="FastClassesCpp.cs" />
     <Compile Include="FastClassesCppPackage.cs" />
+    <Compile Include="MemberVariableGeneratorMMDBControl.xaml.cs">
+      <DependentUpon>MemberVariableGeneratorMMDBControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -225,7 +228,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="FastClassesModalMessageDialogBoxControl.xaml">
+    <Page Include="ClassNameInputMMDBControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MemberVariableGeneratorMMDBControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -203,17 +203,20 @@ namespace FastClassesVSIX
         /// The method will simply return the user input className
         /// </summary>
         /// <returns></returns>
-        private string getClassName()
+        private ClassNameInputMMDBControl factoryClassNameInputMMDBControl()
         {
-            var fastClassesMMBControlInstance = new FastClassesModalMessageDialogBoxControl();
-            fastClassesMMBControlInstance.ShowModal();  //Opens the class name input window in the file "ClassPreferenceOptions.xaml"
+            var fastClassesMMDBControlInstance = new ClassNameInputMMDBControl();
+            fastClassesMMDBControlInstance.ShowModal();
+                //Opens the class name input window in the file "ClassPreferenceOptions.xaml"
 
-            if (!fastClassesMMBControlInstance.Result)
-                return null; //Check if the class name was successfully input
-
-            return fastClassesMMBControlInstance.InputClassName;
+            return fastClassesMMDBControlInstance.Result ? fastClassesMMDBControlInstance : null;
         }
-       
+
+        private MemberVariableGeneratorMMDBControl factoryMemVarGenMMDBControl()
+        {
+            var MemVarGenMMDBControlInstance = new MemberVariableGeneratorMMDBControl();
+            return MemVarGenMMDBControlInstance;
+        }
 
         /// This function is the callback used to execute the command when the menu item is clicked.
         /// See the constructor to see how the menu item is associated with this function using
@@ -231,12 +234,18 @@ namespace FastClassesVSIX
             if (documentType == 0)
                 return;
 
-            var className = getClassName();
-            if (className == null)
+            var dialogBoxInstance = factoryClassNameInputMMDBControl();
+
+            var inputClassName = dialogBoxInstance.InputClassName; 
+            if (inputClassName == null)
                 return;
 
-            ClassTemplateWriter.initializeMembers(className, ref txtManager); // initialize the class Templates stuff
+            if (dialogBoxInstance.CheckBox == true)
+            {
+                var gen = factoryMemVarGenMMDBControl();
+            }
 
+            ClassTemplateWriter.initializeMembers(inputClassName, ref txtManager); // initialize the class Templates stuff
             ClassTemplateWriter.CommandHandler(item.CommandID.ID, documentType);
         }
     }

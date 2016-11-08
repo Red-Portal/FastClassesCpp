@@ -79,3 +79,5 @@ d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Deb
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\Microsoft.VisualStudio.Editor.xml
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\icon.ico
 d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\bin\Debug\Resources\icon.bmp
+d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Debug\ClassNameInputMMDBControl.baml
+d:\documents\visual studio 2015\Projects\FastClassesVSIX\FastClassesVSIX\obj\Debug\ClassNameInputMMDBControl.g.cs

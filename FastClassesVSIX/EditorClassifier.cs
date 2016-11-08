@@ -223,39 +223,35 @@ namespace FastClassesVSIX
         /// <param name="documentType"></param>
         public static void CommandHandler(int cmdGuid, int documentType)
         {
-            if (documentType == 1) //if the current active ducument is a Source file
-                switch(cmdGuid) 
+            switch (cmdGuid)
+            {
+                default:
+                    break;
+                case CmdGuid.CommandMakeClassBasic:
                 {
-                    default:
-                        MessageBox.Show("error: menu command does not match any command guid");
-                        break;
-                    case CmdGuid.CommandMakeClassBasic:
+                    if (documentType == 1)
                         Edit.Insert(m_codelength, DefinitionTemplate.ClassBasic());
-                        break;
-                    case CmdGuid.CommandMakeClassWithCopy:
-                        Edit.Insert(m_codelength, DefinitionTemplate.ClassWithCopy());
-                        break;
-                    case CmdGuid.CommandMakeClassWithMove:
-                        Edit.Insert(m_codelength, DefinitionTemplate.ClassWithMove());
-                        break;
-                }
-
-            else if (documentType == 2) //if the current active document is a header file
-                switch (cmdGuid)
-                {
-                    default:
-                        MessageBox.Show("error: menu command does not match any command guid");
-                        break;
-                    case CmdGuid.CommandMakeClassBasic:
+                    else if (documentType == 2)
                         Edit.Insert(m_codelength, DeclarationTemplate.ClassBasic());
-                        break;
-                    case CmdGuid.CommandMakeClassWithCopy:
-                        Edit.Insert(m_codelength, DeclarationTemplate.ClassWithCopy());
-                        break;
-                    case CmdGuid.CommandMakeClassWithMove:
-                        Edit.Insert(m_codelength, DeclarationTemplate.ClassWithMove());
-                        break;
+                    break;
                 }
+                case CmdGuid.CommandMakeClassWithCopy:
+                {
+                    if (documentType == 1)
+                        Edit.Insert(m_codelength, DefinitionTemplate.ClassWithCopy());
+                    else if (documentType == 2)
+                        Edit.Insert(m_codelength, DeclarationTemplate.ClassWithCopy());
+                    break;
+                }
+                case CmdGuid.CommandMakeClassWithMove:
+                {
+                    if (documentType == 1)
+                        Edit.Insert(m_codelength, DefinitionTemplate.ClassWithMove());
+                    else if (documentType == 2)
+                        Edit.Insert(m_codelength, DeclarationTemplate.ClassWithMove());
+                    break;
+                }
+            }
             Edit.Apply();
         }
     }

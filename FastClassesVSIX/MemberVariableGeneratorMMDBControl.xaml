@@ -6,11 +6,14 @@
              xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
              mc:Ignorable="d" 
              WindowStartupLocation="CenterScreen"         
-             Width="368" Height="206.18"
+             Width="368" Height="230.18"
              Background="DimGray">
     <StackPanel KeyDown="UIElement_OnKeyDown">
         <TextBlock  Margin="7,7,0,0" Foreground="WhiteSmoke" FontWeight="DemiBold" FontFamily="Calibri"  Text="Variable Generator"/>
         <TextBlock  Margin="7,-1,0,7" Text="Press Enter to Generate Member Variables or Press ESC to abort" FontSize="9" FontWeight="DemiBold" Foreground="AliceBlue"/>
+        <CheckBox Name="isPublic" HorizontalAlignment="Left" Margin="10,0,0,0" Checked="isPublic_OnChecked" Unchecked="isPublic_onUnchecked" IsChecked="false" KeyDown="isPublic_OnKeyDown">
+            <TextBox Text="This is a public variable (private in default)" Margin="0,2.5,0,0" BorderThickness="0" Background="DimGray" FontSize="8.5" FontWeight="Normal" Foreground="AliceBlue"/>
+        </CheckBox>
         <CheckBox Name="AddGet" HorizontalAlignment="Left" Margin="10,0,0,0" Checked="AddGet_OnChecked" Unchecked="AddGet_OnUnchecked" IsChecked="false" KeyDown="AddGet_OnKeyDown">
             <TextBox Text="Add Get Method" Margin="0,2.5,0,0" BorderThickness="0" Background="DimGray" FontSize="8.5" FontWeight="Normal" Foreground="AliceBlue"/>
         </CheckBox>

@@ -17,7 +17,7 @@ The available 3 types of commands each generate,
 
 version 1.0
 
-This version currently only officially supports Visual Studio 2015(14.0),
+This version only officially supports Visual Studio 2015(14.0),
 I'm not sure if it will work in other versions
 If this doesn't work or works in your current version please let me now!
 

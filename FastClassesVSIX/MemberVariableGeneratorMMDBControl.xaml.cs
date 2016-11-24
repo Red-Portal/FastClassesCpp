@@ -21,12 +21,13 @@ namespace FastClassesVSIX
     /// </summary>
     public partial class MemberVariableGeneratorMMDBControl : DialogWindow
     {
+        public bool IsPublicChecked { get; private set; }
         public bool AddGetChecked { get; private set; }
         public bool AddSetChecked { get; private set; }
         public bool AddCopyChecked { get; private set; }
         public bool AddMoveChecked { get; private set; }
         public bool AddCopyImplemenationChecked { get; private set; }
-        public bool resultCheck { get; private set; }
+        public bool repeatCheck { get; private set; }
 
         public MemberVariableGeneratorMMDBControl()
         {
@@ -38,7 +39,17 @@ namespace FastClassesVSIX
             AddCopyChecked = false;
             AddMoveChecked = false;
             AddCopyImplemenationChecked = false;
-            resultCheck = false;
+            repeatCheck = false;
+        }
+
+        private void isPublic_OnChecked(object sender, RoutedEventArgs e)
+        {
+            IsPublicChecked = true;
+        }
+
+        private void isPublic_onUnchecked(object sender, RoutedEventArgs e)
+        {
+            IsPublicChecked = false;
         }
 
         private void AddGet_OnChecked(object sender, RoutedEventArgs e)
@@ -109,6 +120,15 @@ namespace FastClassesVSIX
             }
         }
 
+        private void isPublic_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                IsPublicChecked = !IsPublicChecked;
+                this.isPublic.IsChecked = IsPublicChecked;
+            }
+        }
+
         private void AddCopySet_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -140,15 +160,12 @@ namespace FastClassesVSIX
         {
             if (e.Key == Key.Escape)
             {
-                resultCheck = false;
                 this.Close();
+                repeatCheck = false;
             }
             else if (e.Key == Key.Enter)
             {
-                if (CheckAvailablityOfMemVarDec())
-                {
-                   MemberVarDecParser();
-                }
+                MemberVarDecParser();
             }
         }
 
@@ -156,43 +173,54 @@ namespace FastClassesVSIX
         {
             if (e.Key == Key.Enter)
             {
-                if (CheckAvailablityOfMemVarDec())
-                {
-                    MemberVarDecParser();
-                    resultCheck = true;
-                }
+                MemberVarDecParser();
             }
         }
 
-        private bool CheckAvailablityOfMemVarDec()
+        private void MemberVarDecParser()
         {
-            string inputText = this.TextBoxMemberVariableDeclarationInput.Text;
+            string inputText = TextBoxMemberVariableDeclarationInput.Text;
+            string[] parsedStringCollection = inputText.Split(' ');
 
+            bool isConstant = false;
+            bool isInitialized = false;
+            bool isArray = false;
+            
             if (inputText.Length == 0)
             {
                 this.ErrorTextBlock.Text = "Variable declaration is empty. To abort, press Escape";
                 this.ErrorTextBlock.Visibility = Visibility.Visible;
-                return false;
             }
             else if (!inputText.Contains(";"))
             {
                 this.ErrorTextBlock.Text = "Semicolon(;) is required in the declaration";
                 this.ErrorTextBlock.Visibility = Visibility.Visible;
-                return false;
             }
             else if (!inputText.Contains(" "))
             {
                 this.ErrorTextBlock.Text =
                     "Type and name of variable must be seperated with a Space";
                 this.ErrorTextBlock.Visibility = Visibility.Visible;
-                return false;
             }
-            return true;
-        }
+            ////////////////////////////////// Exceptions ///////////////////////////////////
 
-        private void MemberVarDecParser()
-        {
-            
+
+
+            if (inputText.Contains('['))
+            {
+                isArray = true;
+            }
+            if(inputText.)
+            if (inputText.Contains('{') || inputText.Contains('('))
+            {
+                isInitialized = true;
+            }
+            foreach (var parsedString in parsedStringCollection)
+            {
+                
+            }
+
+            repeatCheck = true;
         }
     }
 }
